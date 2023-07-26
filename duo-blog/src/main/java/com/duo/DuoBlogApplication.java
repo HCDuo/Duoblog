@@ -1,5 +1,6 @@
 package com.duo;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -13,6 +14,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 
 @SpringBootApplication
+@MapperScan("com.duo.mapper")
 public class DuoBlogApplication {
     public static void main(String[] args) {
         SpringApplication.run(DuoBlogApplication.class,args);
