@@ -2,6 +2,7 @@ package com.duo.domain.entity;
 
 import java.util.Date;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
@@ -33,6 +34,9 @@ public class Article extends Model<Article> {
     private String summary;
     //所属分类id
     private Long categoryId;
+    //所属分类Name
+    @TableField(exist = false)
+    private String categoryName;
     //缩略图
     private String thumbnail;
     //是否置顶（0否，1是）

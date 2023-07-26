@@ -6,7 +6,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * <pre>
- *
+ * 解决跨域问题
  * </pre>
  *
  * @author <a href="https://github.com/HCDUO">HCDUO</a>

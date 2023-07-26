@@ -2,7 +2,7 @@ package com.duo.enums;
 
 /**
  * <pre>
- *
+ * 响应枚举
  * </pre>
  *
  * @author <a href="https://github.com/HCDUO">HCDUO</a>

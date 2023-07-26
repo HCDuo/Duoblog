@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 /**
  * <pre>
- *
+ *  统一响应类
  * </pre>
  *
  * @author <a href="https://github.com/HCDUO">HCDUO</a>

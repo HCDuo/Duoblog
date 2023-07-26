@@ -6,15 +6,18 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.duo.constants.SystemConstants;
 import com.duo.domain.ResponseResult;
 import com.duo.domain.entity.Article;
+import com.duo.domain.vo.ArticleListVo;
 import com.duo.domain.vo.HotArticleVo;
+import com.duo.domain.vo.PageVo;
 import com.duo.mapper.ArticleMapper;
 import com.duo.service.ArticleService;
+import com.duo.service.CategoryService;
 import com.duo.utils.BeanCopyUtils;
-import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 文章表(Article)表服务实现类
@@ -25,6 +28,8 @@ import java.util.List;
 @Service("articleService")
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
 
+    @Autowired
+    private CategoryService categoryService;
     @Override
     public ResponseResult hotArticleList() {
         //查询热门文章，封装ResponseResult返回
@@ -50,5 +55,36 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
         List<HotArticleVo> vs = BeanCopyUtils.copyBeanList(articles, HotArticleVo.class);
         return ResponseResult.okResult(vs);
+    }
+
+    @Override
+    public ResponseResult articleList(Integer pageNum, Integer pageSize, Long categoryId) {
+        //查询条件
+        LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
+        // 如果 有categoryId 就要 查询时要和传入的相同
+        queryWrapper.eq(Objects.nonNull(categoryId) && categoryId > 0,Article::getCategoryId,categoryId);
+        // 状态是正式发布的
+        queryWrapper.eq(Article::getStatus,SystemConstants.ARTICLE_STATUS_NORMAL);
+        // 对isTop进行降序
+        queryWrapper.orderByDesc(Article::getIsTop);
+        //分页查询
+        Page<Article> page  = new Page<>(pageNum,pageSize);
+        page(page,queryWrapper);
+
+        List<Article> articles = page.getRecords();
+        //查询categoryName
+        //在这种情况下，改用 forEach 方法，而不是 map 方法。
+        // forEach 方法接受一个 Consumer 对象，允许您对每个元素执行自定义的操作，而不需要返回一个新的流。
+        //通过使用 forEach，您可以遍历每篇文章，为其设置对应的分类名称，而无需返回一个新的流。
+        // 注意，在这种情况下，forEach 是一个终端操作，因此没有必要再调用 collect(Collectors.toList())，因为它不会返回一个新的流。
+        // 修改后的代码将直接在原始的 articles 列表上进行更改。
+        articles.stream()
+                .forEach(article ->
+                        article.setCategoryName(categoryService.getById(article.getCategoryId()).getName()));
+        //封装查询的结果
+        List<ArticleListVo> articleListVos = BeanCopyUtils.copyBeanList(page.getRecords(), ArticleListVo.class);
+        PageVo pageVo = new PageVo(articleListVos,page.getTotal());
+
+        return ResponseResult.okResult(pageVo);
     }
 }

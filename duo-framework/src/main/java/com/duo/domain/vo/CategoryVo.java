@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * <pre>
- *
+ *  类别返回类
  * </pre>
  *
  * @author <a href="https://github.com/HCDUO">HCDUO</a>

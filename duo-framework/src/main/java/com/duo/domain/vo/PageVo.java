@@ -4,21 +4,20 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * <pre>
- *  热门文章返回类
+ * 分页返回类
  * </pre>
  *
  * @author <a href="https://github.com/HCDUO">HCDUO</a>
- * @date:2023/7/26 17:06
+ * @date:2023/7/26 21:32
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class HotArticleVo {
-    private Long id;
-    //标题
-    private String title;
-    //访问量
-    private Long viewCount;
+public class PageVo {
+    private List rows;
+    private Long total;
 }

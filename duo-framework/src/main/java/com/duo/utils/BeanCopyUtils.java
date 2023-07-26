@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 /**
  * <pre>
- *
+ * Bean拷贝工具类封装
  * </pre>
  *
  * @author <a href="https://github.com/HCDUO">HCDUO</a>

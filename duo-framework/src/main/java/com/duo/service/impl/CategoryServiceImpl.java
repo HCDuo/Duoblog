@@ -8,6 +8,7 @@ import com.duo.domain.entity.Article;
 import com.duo.domain.entity.Category;
 import com.duo.domain.vo.CategoryVo;
 import com.duo.mapper.CategoryMapper;
+import com.duo.service.ArticleService;
 import com.duo.service.CategoryService;
 import com.duo.utils.BeanCopyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ import java.util.stream.Collectors;
 public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements CategoryService {
 
     @Autowired
-    private ArticleServiceImpl articleService;
+    private ArticleService articleService;
 
     @Override
     public ResponseResult getCategoryList() {

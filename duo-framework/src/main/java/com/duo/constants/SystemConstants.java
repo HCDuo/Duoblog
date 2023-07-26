@@ -2,7 +2,7 @@ package com.duo.constants;
 
 /**
  * <pre>
- *
+ *  状态类
  * </pre>
  *
  * @author <a href="https://github.com/HCDUO">HCDUO</a>
