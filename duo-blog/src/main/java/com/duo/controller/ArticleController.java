@@ -6,10 +6,7 @@ import com.duo.domain.ResponseResult;
 import com.duo.domain.entity.Article;
 import com.duo.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -47,5 +44,10 @@ public class ArticleController {
         return articleService.getArticleDetail(id);
     }
 
+    @PutMapping("/updateViewCount/{id}")
+    @SystemLog(BusinessName = "更新文章浏览量")
+    public ResponseResult updateViewCount(@PathVariable("id") Long id){
+        return articleService.updateViewCount(id);
+    }
 }
 

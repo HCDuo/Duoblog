@@ -206,6 +206,16 @@ public class RedisCache
         HashOperations<String, String, T> opsForHash = redisTemplate.opsForHash();
         return opsForHash.get(key, hKey);
     }
+    /**
+     * 自增Hash中的数据
+     *
+     * @param key
+     * @param hKey
+     * @param v
+     */
+    public void incrementCacheMapValue(String key,String hKey,long v){
+        redisTemplate.boundHashOps(key).increment(hKey, v);
+    }
 
     /**
      * 删除Hash中的数据
