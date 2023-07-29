@@ -1,5 +1,6 @@
 package com.duo.controller;
 
+import com.duo.annotation.SystemLog;
 import com.duo.domain.ResponseResult;
 import com.duo.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping("/getCategoryList")
+    @SystemLog(BusinessName = "获取分类信息")
     public ResponseResult getCategoryList(){
         return categoryService.getCategoryList();
     }

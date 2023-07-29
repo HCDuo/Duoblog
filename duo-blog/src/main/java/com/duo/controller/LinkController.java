@@ -1,5 +1,6 @@
 package com.duo.controller;
 
+import com.duo.annotation.SystemLog;
 import com.duo.domain.ResponseResult;
 import com.duo.service.LinkService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ public class LinkController {
     private LinkService linkService;
 
     @GetMapping("/getAllLink")
+    @SystemLog(BusinessName = "友链信息")
     public ResponseResult getAllLink(){
         return linkService.getAllLink();
     }

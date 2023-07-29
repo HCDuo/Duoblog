@@ -1,6 +1,7 @@
 package com.duo.controller;
 
 
+import com.duo.annotation.SystemLog;
 import com.duo.domain.ResponseResult;
 import com.duo.domain.entity.Article;
 import com.duo.service.ArticleService;
@@ -24,32 +25,24 @@ public class ArticleController {
 
     @Autowired
     private ArticleService articleService;
-    /*
-        展示文章全部信息
-    */
     @GetMapping("/list")
+    @SystemLog(BusinessName = "展示文章全部信息")
     public List<Article> test(){
         return articleService.list();
     }
-    /*
-        展示热门文章部分信息：标题+游览数
-    */
     @GetMapping("/hotArticleList")
+    @SystemLog(BusinessName = "展示热门文章部分信息")
     public ResponseResult hotArticleList(){
         ResponseResult result =  articleService.hotArticleList();
         return result;
     }
-    /*
-        展示文章列表，展示在页面
-    */
     @GetMapping("/articleList")
+    @SystemLog(BusinessName = "展示文章列表")
     public ResponseResult articleList(Integer pageNum,Integer pageSize,Long categoryId){
         return articleService.articleList(pageNum,pageSize,categoryId);
     }
-    /*
-        展示热门文章具体内容
-    */
     @GetMapping("/{id}")
+    @SystemLog(BusinessName = "展示热门文章具体内容")
     public ResponseResult getArticleDetail(@PathVariable("id") Long id){
         return articleService.getArticleDetail(id);
     }

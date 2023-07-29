@@ -1,5 +1,6 @@
 package com.duo.controller;
 
+import com.duo.annotation.SystemLog;
 import com.duo.domain.ResponseResult;
 import com.duo.service.UploadService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ public class UploadController {
     private UploadService uploadService;
 
     @PostMapping("/upload")
+    @SystemLog(BusinessName = "更新个人信息")
     public ResponseResult uploadImg(MultipartFile img){
         return uploadService.uploadImg(img);
     }
