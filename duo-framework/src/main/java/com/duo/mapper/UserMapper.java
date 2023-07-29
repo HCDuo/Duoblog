@@ -2,7 +2,7 @@ package com.duo.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.duo.domain.entity.User;
-import org.springframework.stereotype.Service;
+import org.apache.ibatis.annotations.Mapper;
 
 
 /**
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
  * @author makejava
  * @since 2023-07-27 18:08:05
  */
-@Service
+@Mapper
 public interface UserMapper extends BaseMapper<User> {
 
 }
