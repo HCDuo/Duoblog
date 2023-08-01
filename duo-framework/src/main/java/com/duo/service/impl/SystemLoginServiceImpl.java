@@ -6,6 +6,7 @@ import com.duo.domain.entity.User;
 import com.duo.service.LoginService;
 import com.duo.utils.JwtUtil;
 import com.duo.utils.RedisCache;
+import com.duo.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -53,4 +54,14 @@ public class SystemLoginServiceImpl implements LoginService {
         map.put("token",jwt);
         return ResponseResult.okResult(map);
     }
+
+    @Override
+    public ResponseResult logout() {
+        //获取当前登录的用户id
+        Long userId = SecurityUtils.getUserId();
+        //删除redis中对应的值
+        redisCache.deleteObject("login:"+userId);
+        return ResponseResult.okResult();
+    }
+
 }
