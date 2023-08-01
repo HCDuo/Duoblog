@@ -2,8 +2,10 @@ package com.duo.controller;
 
 import com.duo.domain.ResponseResult;
 import com.duo.domain.entity.LoginUser;
+import com.duo.domain.entity.Menu;
 import com.duo.domain.entity.User;
 import com.duo.domain.vo.AdminUserInfoVo;
+import com.duo.domain.vo.RoutersVo;
 import com.duo.domain.vo.UserInfoVo;
 import com.duo.enums.AppHttpCodeEnum;
 import com.duo.exception.SystemException;
@@ -63,5 +65,14 @@ public class LoginController {
         //封装数据返回
         AdminUserInfoVo adminUserInfoVo = new AdminUserInfoVo(perms,roleKeyList,userInfoVo);
         return ResponseResult.okResult(adminUserInfoVo);
+    }
+
+    @GetMapping("getRouters")
+    public ResponseResult<RoutersVo> getRouters(){
+        Long userId = SecurityUtils.getUserId();
+        //查询menu 结果是tree的形式
+        List<Menu> menus = menuService.selectRouterMenuTreeByUserId(userId);
+        //封装数据返回
+        return ResponseResult.okResult(new RoutersVo(menus));
     }
 }
