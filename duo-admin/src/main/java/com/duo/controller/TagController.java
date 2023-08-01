@@ -1,13 +1,13 @@
 package com.duo.controller;
 
 import com.duo.domain.ResponseResult;
+import com.duo.domain.dto.TagDto;
 import com.duo.domain.dto.TagListDto;
 import com.duo.domain.vo.PageVo;
 import com.duo.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <pre>
@@ -28,5 +28,9 @@ public class TagController {
         return tagService.pageTagList(pageNum,pageSize,tagListDto);
     }
 
+    @PostMapping
+    public ResponseResult<?> addTag(@Validated @RequestBody TagDto tagDtO) {
+        return tagService.addTag(tagDtO);
+    }
 
 }

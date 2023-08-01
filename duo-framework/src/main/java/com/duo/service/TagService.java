@@ -2,6 +2,7 @@ package com.duo.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.duo.domain.ResponseResult;
+import com.duo.domain.dto.TagDto;
 import com.duo.domain.dto.TagListDto;
 import com.duo.domain.entity.Tag;
 import com.duo.domain.vo.PageVo;
@@ -16,4 +17,7 @@ import com.duo.domain.vo.PageVo;
 public interface TagService extends IService<Tag> {
 
     ResponseResult<PageVo> pageTagList(Integer pageNum, Integer pageSize, TagListDto tagListDto);
+
+    ResponseResult<?> addTag(TagDto tagDtO);
+
 }
