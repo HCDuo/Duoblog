@@ -112,11 +112,7 @@
 
 <script>
 // import { getToken } from '@/utils/auth'
-import {
-  listArticle,
-  delArticle
-}
-from '@/api/content/article'
+import {delArticle, listArticle} from '@/api/content/article'
 
 export default {
   name: 'Article',

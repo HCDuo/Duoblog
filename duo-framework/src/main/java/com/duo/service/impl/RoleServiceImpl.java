@@ -1,8 +1,6 @@
 package com.duo.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.duo.domain.entity.Menu;
 import com.duo.domain.entity.Role;
 import com.duo.mapper.RoleMapper;
 import com.duo.service.RoleService;

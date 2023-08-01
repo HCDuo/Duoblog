@@ -19,6 +19,7 @@
 import header from '../components/header.vue'
 import rightlist from '../components/rightlist.vue'
 import reward from '../components/reward.vue'
+
 export default {
 	name: 'Reward',
 	data() { //选项 / 数据

@@ -113,7 +113,7 @@
 </template>
 
 <script>
-import { listTag, getTag, delTag, addTag, updateTag } from '@/api/content/tag'
+import {addTag, delTag, getTag, listTag, updateTag} from '@/api/content/tag'
 
 export default {
   name: 'Tag',

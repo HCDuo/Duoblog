@@ -21,7 +21,8 @@ import header from '../components/header.vue'
 import friends from '../components/friends.vue'
 import rightlist from '../components/rightlist.vue'
 import message from '../components/message.vue'
-    export default {
+
+export default {
         name: 'FriendsLink',
         data() { //选项 / 数据
             return {

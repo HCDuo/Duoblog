@@ -238,19 +238,9 @@
 
 <script>
 // import { getToken } from '@/utils/auth'
-import {
-  listUser,
-  getUser,
-  delUser,
-  addUser,
-  updateUser,
-  changeUserStatus
-}
-from '@/api/system/user'
-import {
-  listAllRole
-}
-from '@/api/system/role'
+import {addUser, changeUserStatus, delUser, getUser, listUser, updateUser} from '@/api/system/user'
+import {listAllRole} from '@/api/system/role'
+
 export default {
   name: 'User',
   data() {

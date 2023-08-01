@@ -21,7 +21,8 @@ import header from '../components/header.vue'
 import rightlist from '../components/rightlist.vue'
 import articleDetail from '../components/articleDetail.vue'
 import message from '../components/message.vue'
-    export default {
+
+export default {
         name:'DetailShare',
         data() { //选项 / 数据
             return {

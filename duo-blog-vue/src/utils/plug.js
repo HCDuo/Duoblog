@@ -1,5 +1,3 @@
-import Vue from 'vue'
-
 /**
  * The MIT License (MIT)
  *

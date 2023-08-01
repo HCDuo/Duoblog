@@ -1,5 +1,6 @@
 import request from '@/utils/request'
-import { praseStrEmpty } from '@/utils/sg'
+import {praseStrEmpty} from '@/utils/sg'
+
 // 查询用户列表
 export function listUser(query) {
   return request({

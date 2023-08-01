@@ -1,6 +1,8 @@
 package com.duo.controller;
 
 import com.duo.domain.ResponseResult;
+import com.duo.domain.dto.TagListDto;
+import com.duo.domain.vo.PageVo;
 import com.duo.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +24,9 @@ public class TagController {
     private TagService tagService;
 
     @GetMapping("/list")
-    public ResponseResult list(){
-        return ResponseResult.okResult(tagService.list());
+    public ResponseResult<PageVo> list(Integer pageNum, Integer pageSize, TagListDto tagListDto){
+        return tagService.pageTagList(pageNum,pageSize,tagListDto);
     }
+
+
 }

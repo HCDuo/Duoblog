@@ -166,14 +166,7 @@
 </template>
 
 <script>
-import {
-  listLink,
-  getLink,
-  delLink,
-  addLink,
-  updateLink,
-  changeLinkStatus
-} from '@/api/content/link'
+import {addLink, changeLinkStatus, delLink, getLink, listLink, updateLink} from '@/api/content/link'
 
 export default {
   name: 'Link',

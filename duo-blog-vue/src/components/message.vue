@@ -91,9 +91,10 @@
 </template>
 
 <script>
-    import {sendComment,getArticleComment,getLinkComment} from '../api/comment.js'
-    import { getToken } from '../utils/auth.js'
-    export default {
+import {getArticleComment, getLinkComment, sendComment} from '../api/comment.js'
+import {getToken} from '../utils/auth.js'
+
+export default {
         data() { //选项 / 数据
             return {
                 respondBox:'',//评论表单
@@ -206,7 +207,7 @@
                     //加载更多
                     this.commentList = this.commentList.concat(msg);
                 }
-                
+
                 this.hasMore = result.total>this.commentList.length
               },
           //选择表情包
@@ -304,7 +305,7 @@
               }
 
               //公用设置数据方法
-              
+
               if(that.$route.name=='DetailArticle'){//文章列表的评论
                   that.type = 0;
                   getArticleComment(that.queryParams).then((response)=>{

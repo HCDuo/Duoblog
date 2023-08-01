@@ -57,9 +57,8 @@
 import {logout} from '../api/user'
 import {removeToken} from '../utils/auth'
 import {getCategoryList} from '../api/category'
-import {
-	Typeit
-} from '../utils/plug.js'
+import {Typeit} from '../utils/plug.js'
+
 export default {
 	data() { //选项 / 数据
 		return {

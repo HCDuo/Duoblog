@@ -1,7 +1,7 @@
 package com.duo.domain;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.duo.enums.AppHttpCodeEnum;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.Serializable;
 

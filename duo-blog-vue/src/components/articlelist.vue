@@ -48,7 +48,8 @@
 <script>
 import {initDate} from '../utils/server.js'
 import {articleList} from '../api/article'
-    export default {
+
+export default {
         name:'Share',
         data() { //选项 / 数据
             return {

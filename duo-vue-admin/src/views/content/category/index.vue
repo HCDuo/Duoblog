@@ -124,7 +124,14 @@
 </template>
 
 <script>
-import { listCategory, getCategory, delCategory, addCategory, updateCategory, exportCategory } from '@/api/content/category'
+import {
+  addCategory,
+  delCategory,
+  exportCategory,
+  getCategory,
+  listCategory,
+  updateCategory
+} from '@/api/content/category'
 
 export default {
   name: 'Category',

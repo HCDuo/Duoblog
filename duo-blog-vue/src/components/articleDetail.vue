@@ -45,9 +45,10 @@
 
 <script>
 import {initDate} from '../utils/server.js'
-import {getArticle,updateViewCount} from '../api/article.js'
-import { mavonEditor } from 'mavon-editor'
-    export default {
+import {getArticle, updateViewCount} from '../api/article.js'
+import {mavonEditor} from 'mavon-editor'
+
+export default {
         data() { //选项 / 数据
             return {
                 aid:'',//文章ID

@@ -108,7 +108,8 @@
 
 
 <script>
-import { hotArticleList } from "../api/article";
+import {hotArticleList} from "../api/article";
+
 export default {
   data() {
     //选项 / 数据

@@ -22,6 +22,7 @@
 
 <script>
 import {getAllLink} from '../api/link.js'
+
 export default {
     data() { //选项 / 数据
         return {

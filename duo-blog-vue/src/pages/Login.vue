@@ -3,7 +3,7 @@
     <div>
         <div class="container">
             <h1 class="loginTitle">
-                
+
             </h1>
             <!-- 登录注册 -->
             <div v-show="!err2005" class="">
@@ -113,9 +113,10 @@
 </template>
 
 <script>
-import {userLogin,userRegister} from '../api/user.js'
+import {userLogin, userRegister} from '../api/user.js'
 import {setToken} from '../utils/auth.js'
-    export default {
+
+export default {
         name: 'Login',
         data() { //选项 / 数据
             return {
@@ -167,7 +168,7 @@ import {setToken} from '../utils/auth.js'
                         this.$router.push({path:'/'});
                     }
                 })
-      
+
             },
             registerEnterFun: function(e){
                 var keyCode = window.event? e.keyCode:e.which;

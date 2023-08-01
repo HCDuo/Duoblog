@@ -19,7 +19,8 @@
 import header from '../components/header.vue'
 import articlelist from '../components/articlelist.vue'
 import rightlist from '../components/rightlist.vue'
-    export default {
+
+export default {
         name:'Home',
         data() { //选项 / 数据
             return {

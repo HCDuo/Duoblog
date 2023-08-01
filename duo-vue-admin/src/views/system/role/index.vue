@@ -194,15 +194,8 @@
 </template>
 
 <script>
-import {
-  listRole,
-  getRole,
-  delRole,
-  addRole,
-  updateRole,
-  changeRoleStatus
-} from '@/api/system/role'
-import { treeselect as menuTreeselect, roleMenuTreeselect } from '@/api/menu'
+import {addRole, changeRoleStatus, delRole, getRole, listRole, updateRole} from '@/api/system/role'
+import {roleMenuTreeselect, treeselect as menuTreeselect} from '@/api/menu'
 
 export default {
   name: 'Role',

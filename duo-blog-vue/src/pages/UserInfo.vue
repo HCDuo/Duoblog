@@ -79,7 +79,7 @@
                             <span>{{userInfoObj.sex==0?'男':'女'}}</span>
                         </li>
 
-                     
+
                     </ul>
 
                 </section>
@@ -90,9 +90,10 @@
 
 <script>
 import header from '../components/header.vue'
-import {getUserInfo,savaUserInfo} from '../api/user.js'//获取用户信息，保存用户信息
+import {getUserInfo, savaUserInfo} from '../api/user.js' //获取用户信息，保存用户信息
 import store from '../store'
-    export default {
+
+export default {
         name: 'UserInfo',
         data() { //选项 / 数据
             return {

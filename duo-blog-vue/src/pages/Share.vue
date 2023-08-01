@@ -19,6 +19,7 @@
 import header from '../components/header.vue'
 import articlelist from '../components/articlelist.vue'
 import rightlist from '../components/rightlist.vue'
+
 export default {
 	name: "Share",
 	data() { //选项 / 数据
