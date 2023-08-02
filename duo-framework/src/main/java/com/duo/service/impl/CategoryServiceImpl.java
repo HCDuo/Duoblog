@@ -49,4 +49,16 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         List<CategoryVo> categoryVos = BeanCopyUtils.copyBeanList(categories,CategoryVo.class);
         return ResponseResult.okResult(categoryVos);
     }
+
+    @Override
+    public List<CategoryVo> listAllCategory() {
+        //查询所有分类，判断是不是正常状态
+        LambdaQueryWrapper<Category> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Category::getStatus, SystemConstants.NORMAL);
+        //封装数据
+        List<Category> list = list(wrapper);
+        List<CategoryVo> categoryVos = BeanCopyUtils.copyBeanList(list, CategoryVo.class);
+        //返回数据
+        return categoryVos;
+    }
 }

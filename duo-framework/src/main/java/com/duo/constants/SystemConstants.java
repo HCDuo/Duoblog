@@ -37,5 +37,9 @@ public class SystemConstants
 
     public static final Object MENU = "C";
     public static final Object BUTTON = "F";
+    /**
+     * 正常状态
+     * */
+    public static final String NORMAL = "0";
 
 }
