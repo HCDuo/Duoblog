@@ -29,5 +29,7 @@ public interface ArticleService extends IService<Article> {
     ResponseResult adminArticleUpdateList(Long id);
 
     ResponseResult adminArticleUpdate(ArticleDto articleDto);
+
+    ResponseResult<?> deleteArtcle(Long id);
 }
 

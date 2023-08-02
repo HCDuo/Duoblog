@@ -42,4 +42,9 @@ public class ArticleController {
     public ResponseResult adminArticleUpdate(@Validated @RequestBody ArticleDto articleDto){
         return articleService.adminArticleUpdate(articleDto);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseResult<?> deleteTag(@PathVariable("id") Long id) {
+        return articleService.deleteArtcle(id);
+    }
 }
