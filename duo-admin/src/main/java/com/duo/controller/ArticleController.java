@@ -4,10 +4,7 @@ import com.duo.domain.ResponseResult;
 import com.duo.domain.dto.AddArticleDto;
 import com.duo.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <pre>
@@ -27,6 +24,11 @@ public class ArticleController {
     @PostMapping
     public ResponseResult add(@RequestBody AddArticleDto article){
         return articleService.add(article);
+    }
+
+    @GetMapping("/list")
+    public ResponseResult adminArticleList(Integer pageNum,Integer pageSize,String title, String summary){
+        return articleService.adminArticleList(pageNum,pageSize,title,summary);
     }
 
 

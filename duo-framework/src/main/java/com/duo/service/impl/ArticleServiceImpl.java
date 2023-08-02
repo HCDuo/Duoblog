@@ -1,6 +1,7 @@
 package com.duo.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.duo.constants.SystemConstants;
@@ -22,6 +23,7 @@ import com.duo.utils.RedisCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Objects;
@@ -42,6 +44,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     private RedisCache redisCache;
     @Autowired
     private ArticleTagService articleTagService;
+    @Autowired
+    private ArticleMapper articleMapper;
     @Override
     public ResponseResult hotArticleList() {
         //查询热门文章，封装ResponseResult返回
@@ -140,5 +144,25 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         //添加 博客和标签的关联
         articleTagService.saveBatch(articleTags);
         return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult adminArticleList(Integer pageNum, Integer pageSize, String title, String summary) {
+        // 构建查询条件(模糊查询)
+        LambdaQueryWrapper<Article> wrapper = new LambdaQueryWrapper<>();
+        if (StringUtils.hasText(title)) {
+            wrapper.like(Article::getTitle, title);
+        }
+        if (StringUtils.hasText(summary)) {
+            wrapper.like(Article::getSummary, summary);
+        }
+
+        // 分页查询
+        Page<Article> page = new Page<>(pageNum, pageSize);
+        IPage<Article> articlePage = articleMapper.selectPage(page, wrapper);
+
+        // 组装响应数据
+        PageVo pageVo = new PageVo(articlePage.getRecords(), articlePage.getTotal());
+        return ResponseResult.okResult(pageVo);
     }
 }
