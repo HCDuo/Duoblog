@@ -1,25 +1,27 @@
 package com.duo.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.duo.constants.SystemConstants;
 import com.duo.domain.ResponseResult;
 import com.duo.domain.dto.AddArticleDto;
+import com.duo.domain.dto.ArticleDto;
 import com.duo.domain.entity.Article;
 import com.duo.domain.entity.ArticleTag;
 import com.duo.domain.entity.Category;
-import com.duo.domain.vo.ArticleDetailVo;
-import com.duo.domain.vo.ArticleListVo;
-import com.duo.domain.vo.HotArticleVo;
-import com.duo.domain.vo.PageVo;
+import com.duo.domain.vo.*;
+import com.duo.enums.AppHttpCodeEnum;
 import com.duo.mapper.ArticleMapper;
+import com.duo.mapper.ArticleTagMapper;
 import com.duo.service.ArticleService;
 import com.duo.service.ArticleTagService;
 import com.duo.service.CategoryService;
 import com.duo.utils.BeanCopyUtils;
 import com.duo.utils.RedisCache;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,6 +48,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     private ArticleTagService articleTagService;
     @Autowired
     private ArticleMapper articleMapper;
+    @Autowired
+    private ArticleTagMapper articleTagMapper;
     @Override
     public ResponseResult hotArticleList() {
         //查询热门文章，封装ResponseResult返回
@@ -165,4 +169,52 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         PageVo pageVo = new PageVo(articlePage.getRecords(), articlePage.getTotal());
         return ResponseResult.okResult(pageVo);
     }
+
+    @Override
+    public ResponseResult adminArticleUpdateList(Long id) {
+        // 根据ID查询文章信息
+        Article article = articleMapper.selectById(id);
+        if (article == null) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.ARTICLE_NOT_EXIST);
+        }
+        List<Long> tags = articleTagMapper.selectList(new QueryWrapper<ArticleTag>()
+                        .eq("article_id", id))
+                        .stream()
+                        .map(ArticleTag::getTagId)
+                        .collect(Collectors.toList());
+        ArticleTagVo articleTagVo = BeanCopyUtils.copyBean(article,ArticleTagVo.class);
+        articleTagVo.setTags(tags);
+        // 构建响应数据
+        return ResponseResult.okResult(articleTagVo);
+    }
+
+    @Override
+    public ResponseResult adminArticleUpdate(ArticleDto articleDto) {
+        // 判断文章是否存在
+        Article existingArticle = articleMapper.selectById(articleDto.getId());
+        if (existingArticle == null) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.ARTICLE_NOT_EXIST);
+        }
+        // 第一步：更新文章
+        BeanUtils.copyProperties(articleDto, existingArticle);
+        articleMapper.updateById(existingArticle);
+
+        // 第二步：更新标签
+        // 删除duo_article_tag表中与文章关联的所有标签记录
+        articleTagMapper.delete(new QueryWrapper<ArticleTag>().eq("article_id", articleDto.getId()));
+
+        // 遍历ArticleDto中tags字段中的标签ID列表，为每个标签ID创建一个新的duo_article_tag记录
+        List<Long> tagIds = articleDto.getTags();
+        if (tagIds != null && !tagIds.isEmpty()) {
+            for (Long tagId : tagIds) {
+                ArticleTag articleTag = new ArticleTag();
+                articleTag.setArticleId(articleDto.getId());
+                articleTag.setTagId(tagId);
+                articleTagMapper.insert(articleTag);
+            }
+        }
+
+        return ResponseResult.okResult();
+    }
+
 }

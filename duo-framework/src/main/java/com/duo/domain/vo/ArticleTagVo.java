@@ -1,10 +1,10 @@
-package com.duo.domain.dto;
+package com.duo.domain.vo;
 
-import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -13,14 +13,12 @@ import java.util.List;
  * </pre>
  *
  * @author <a href="https://github.com/HCDUO">HCDUO</a>
- * @date:2023/8/2 17:30
+ * @date:2023/8/2 23:47
  */
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@ApiModel(description = "添加文章DTO")
-public class AddArticleDto {
-
+@AllArgsConstructor
+public class ArticleTagVo {
     private Long id;
     //标题
     private String title;
@@ -30,7 +28,6 @@ public class AddArticleDto {
     private String summary;
     //所属分类id
     private Long categoryId;
-
     //缩略图
     private String thumbnail;
     //是否置顶（0否，1是）
@@ -41,7 +38,16 @@ public class AddArticleDto {
     private Long viewCount;
     //是否允许评论 1是，0否
     private String isComment;
+
+    private Long createBy;
+
+    private Date createTime;
+
+    private Long updateBy;
+
+    private Date updateTime;
+    //删除标志（0代表未删除，1代表已删除）
+    private Integer delFlag;
+
     private List<Long> tags;
-
 }
-

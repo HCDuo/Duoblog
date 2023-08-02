@@ -2,8 +2,10 @@ package com.duo.controller;
 
 import com.duo.domain.ResponseResult;
 import com.duo.domain.dto.AddArticleDto;
+import com.duo.domain.dto.ArticleDto;
 import com.duo.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -31,5 +33,13 @@ public class ArticleController {
         return articleService.adminArticleList(pageNum,pageSize,title,summary);
     }
 
+    @GetMapping("{id}")
+    public ResponseResult adminArticleUpdateList(@PathVariable("id") Long id){
+        return articleService.adminArticleUpdateList(id);
+    }
 
+    @PutMapping()
+    public ResponseResult adminArticleUpdate(@Validated @RequestBody ArticleDto articleDto){
+        return articleService.adminArticleUpdate(articleDto);
+    }
 }

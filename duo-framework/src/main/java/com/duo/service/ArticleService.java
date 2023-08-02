@@ -3,6 +3,7 @@ package com.duo.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.duo.domain.ResponseResult;
 import com.duo.domain.dto.AddArticleDto;
+import com.duo.domain.dto.ArticleDto;
 import com.duo.domain.entity.Article;
 
 /**
@@ -24,5 +25,9 @@ public interface ArticleService extends IService<Article> {
     ResponseResult add(AddArticleDto article);
 
     ResponseResult adminArticleList(Integer pageNum, Integer pageSize, String title, String summary);
+
+    ResponseResult adminArticleUpdateList(Long id);
+
+    ResponseResult adminArticleUpdate(ArticleDto articleDto);
 }
 
