@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.duo.constants.SystemConstants;
 import com.duo.domain.ResponseResult;
 import com.duo.domain.entity.Menu;
+import com.duo.enums.AppHttpCodeEnum;
+import com.duo.exception.SystemException;
 import com.duo.mapper.MenuMapper;
 import com.duo.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,6 +83,26 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         menuList.sort(Comparator.comparing(Menu::getParentId)
                 .thenComparing(Menu::getOrderNum));
         return ResponseResult.okResult(menuList);
+    }
+
+    @Override
+    public ResponseResult adminAddMenu(Menu menu) {
+        // 名称是否存在
+        Menu existMenu = menuMapper.selectOne(new LambdaQueryWrapper<Menu>()
+                .select(Menu::getId)
+                .eq(Menu::getMenuName, menu.getMenuName()));
+        if (existMenu != null) {
+            throw new SystemException(AppHttpCodeEnum.MENU_EXIST);
+        }
+        // 将传入的menu对象保存到数据库中
+        int rows = menuMapper.insert(menu);
+        if (rows > 0) {
+            // 保存成功，返回包含添加的菜单数据的ResponseResult
+            return ResponseResult.okResult();
+        } else {
+            // 保存失败，返回响应结果表示操作失败
+            throw new SystemException(AppHttpCodeEnum.SYSTEM_ERROR);
+        }
     }
 
     private List<Menu> builderMenuTree(List<Menu> menus, Long parentId) {

@@ -8,9 +8,7 @@ import com.duo.service.ArticleService;
 import com.duo.service.MenuService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,5 +30,11 @@ public class MenuController {
     @SystemLog(BusinessName = "展示菜单信息")
     public ResponseResult<List<Menu>> adminMenuList(String status ,String menuName){
         return menuService.adminMenuList(status,menuName);
+    }
+
+    @PostMapping()
+    @SystemLog(BusinessName = "展示菜单信息")
+    public ResponseResult adminAddMenu(@RequestBody Menu menu){
+        return menuService.adminAddMenu(menu);
     }
 }

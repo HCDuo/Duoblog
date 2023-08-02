@@ -35,7 +35,8 @@ public enum AppHttpCodeEnum {
     NAME_NOT_NULL(517, "标签名不能为空"),
     TAG_NAME_EXIST(518, "标签已经存在"),
     TAG_UPDATE_ERROR(519, "标签更新错误"),
-    ARTICLE_NOT_EXIST(520,"文章不存在" );
+    ARTICLE_NOT_EXIST(520,"文章不存在" ),
+    MENU_EXIST(521,"菜单存在" );
     int code;
     String msg;
 

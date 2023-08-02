@@ -20,4 +20,6 @@ public interface MenuService extends IService<Menu> {
     List<Menu> selectRouterMenuTreeByUserId(Long userId);
 
     ResponseResult<List<Menu>> adminMenuList(String status, String menuName);
+
+    ResponseResult adminAddMenu(Menu menu);
 }
