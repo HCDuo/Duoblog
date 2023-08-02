@@ -13,7 +13,6 @@ import com.duo.domain.dto.ArticleDto;
 import com.duo.domain.entity.Article;
 import com.duo.domain.entity.ArticleTag;
 import com.duo.domain.entity.Category;
-import com.duo.domain.entity.Tag;
 import com.duo.domain.vo.*;
 import com.duo.enums.AppHttpCodeEnum;
 import com.duo.exception.SystemException;
