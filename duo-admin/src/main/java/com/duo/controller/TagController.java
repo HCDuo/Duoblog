@@ -3,13 +3,12 @@ package com.duo.controller;
 import com.duo.domain.ResponseResult;
 import com.duo.domain.dto.TagDto;
 import com.duo.domain.dto.TagListDto;
+import com.duo.domain.entity.Tag;
 import com.duo.domain.vo.PageVo;
 import com.duo.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * <pre>
@@ -38,5 +37,14 @@ public class TagController {
     @DeleteMapping("/{id}")
     public ResponseResult<?> deleteTag(@PathVariable("id") Long id) {
         return tagService.deleteTag(id);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseResult getTagDetail(@PathVariable("id") Long id){
+        return tagService.getTagDetail(id);
+    }
+    @PutMapping()
+    public ResponseResult updateTag(@RequestBody Tag tag){
+        return tagService.updateTag(tag);
     }
 }

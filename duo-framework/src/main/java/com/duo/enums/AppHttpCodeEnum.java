@@ -31,7 +31,10 @@ public enum AppHttpCodeEnum {
     TAG_EXIST(513, "标签已存在"),
     TAG_ADD_ERROR(514,"标签添加失败" ),
     TAG_NOT_FOUND(515, "标签不存在"),
-    TAG_DELETE_ERROR(514,"标签删除失败" );
+    TAG_DELETE_ERROR(516,"标签删除失败" ),
+    NAME_NOT_NULL(517, "标签名不能为空"),
+    TAG_NAME_EXIST(518, "标签已经存在"),
+    TAG_UPDATE_ERROR(519, "标签更新错误");
     int code;
     String msg;
 

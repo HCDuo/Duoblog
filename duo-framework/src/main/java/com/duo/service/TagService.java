@@ -21,4 +21,8 @@ public interface TagService extends IService<Tag> {
     ResponseResult<?> addTag(TagDto tagDtO);
 
     ResponseResult<?> deleteTag(Long id);
+
+    ResponseResult getTagDetail(Long id);
+
+    ResponseResult updateTag(Tag tag);
 }

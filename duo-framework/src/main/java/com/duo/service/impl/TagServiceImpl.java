@@ -10,11 +10,13 @@ import com.duo.domain.dto.TagListDto;
 import com.duo.domain.entity.Article;
 import com.duo.domain.entity.Tag;
 import com.duo.domain.vo.PageVo;
+import com.duo.domain.vo.TagVo;
 import com.duo.enums.AppHttpCodeEnum;
 import com.duo.exception.SystemException;
 import com.duo.mapper.ArticleMapper;
 import com.duo.mapper.TagMapper;
 import com.duo.service.TagService;
+import com.duo.utils.BeanCopyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -32,6 +34,7 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
 
     @Autowired
     private TagMapper tagMapper;
+
     @Autowired
     private ArticleMapper articleMapper;
 
@@ -85,7 +88,6 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
         if (existingTag == null) {
             return ResponseResult.errorResult(AppHttpCodeEnum.TAG_NOT_FOUND);
         }
-
         // 假设标签对象中有一个名为 delFlag 的字段用于表示是否被删除，0 表示未删除，1 表示已删除
         LambdaUpdateWrapper<Tag> updateWrapper = new LambdaUpdateWrapper<>();
         updateWrapper.eq(Tag::getId, existingTag.getId())
@@ -96,6 +98,44 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
             return ResponseResult.okResult();
         } else {
             throw new SystemException(AppHttpCodeEnum.TAG_DELETE_ERROR);
+        }
+    }
+
+    @Override
+    public ResponseResult getTagDetail(Long id) {
+        //根据id查询标签
+        Tag tag = getById(id);
+        //转换成VO
+        TagVo tagVo = BeanCopyUtils.copyBean(tag, TagVo.class);
+        //封装响应返回
+        return ResponseResult.okResult(tagVo);
+    }
+
+    @Override
+    public ResponseResult<?> updateTag(Tag tag) {
+        // 判断标签是否存在
+        Tag existTag = tagMapper.selectOne(new LambdaQueryWrapper<Tag>()
+                .select(Tag::getId)
+                .eq(Tag::getName, tag.getName()));
+        // 标签不能为空
+        if (tag.getName() == null) {
+            throw new SystemException(AppHttpCodeEnum.NAME_NOT_NULL);
+        }
+        // 更新标签的更新时间
+        tag.setUpdateTime(new Date());
+
+        // 执行更新操作
+        if (existTag != null && !existTag.getId().equals(tag.getId())) {
+            // 已存在同名的标签，且不是当前编辑的标签
+            throw new SystemException(AppHttpCodeEnum.TAG_NAME_EXIST);
+        } else {
+            // 更新标签
+            boolean success = updateById(tag);
+            if (success) {
+                return ResponseResult.okResult();
+            } else {
+                throw new SystemException(AppHttpCodeEnum.TAG_UPDATE_ERROR);
+            }
         }
     }
 }
