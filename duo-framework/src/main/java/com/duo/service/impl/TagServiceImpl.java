@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 标签(Tag)表服务实现类
@@ -137,5 +138,17 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
                 throw new SystemException(AppHttpCodeEnum.TAG_UPDATE_ERROR);
             }
         }
+    }
+
+    @Override
+    public List<TagVo> listAllTag() {
+        //查询数据
+        LambdaQueryWrapper<Tag> wrapper = new LambdaQueryWrapper<>();
+        wrapper.select(Tag::getId,Tag::getName);
+        //封装数据
+        List<Tag> list = list(wrapper);
+        List<TagVo> tagVos = BeanCopyUtils.copyBeanList(list, TagVo.class);
+        //返回数据
+        return tagVos;
     }
 }

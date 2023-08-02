@@ -5,10 +5,13 @@ import com.duo.domain.dto.TagDto;
 import com.duo.domain.dto.TagListDto;
 import com.duo.domain.entity.Tag;
 import com.duo.domain.vo.PageVo;
+import com.duo.domain.vo.TagVo;
 import com.duo.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <pre>
@@ -46,5 +49,10 @@ public class TagController {
     @PutMapping()
     public ResponseResult updateTag(@RequestBody Tag tag){
         return tagService.updateTag(tag);
+    }
+    @GetMapping("/listAllTag")
+    public ResponseResult listAllTag(){
+        List<TagVo> list = tagService.listAllTag();
+        return ResponseResult.okResult(list);
     }
 }
