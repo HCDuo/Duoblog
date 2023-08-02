@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * <pre>
  *
@@ -33,4 +35,8 @@ public class TagController {
         return tagService.addTag(tagDtO);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseResult<?> deleteTag(@PathVariable("id") Long id) {
+        return tagService.deleteTag(id);
+    }
 }

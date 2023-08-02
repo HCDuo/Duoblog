@@ -28,8 +28,10 @@ public enum AppHttpCodeEnum {
     PASSWORD_NOT_NULL(510, "密码不能为空"),
     EMAIL_NOT_NULL(511, "邮箱不能为空"),
     NICKNAME_EXIST(512, "昵称已存在"),
-    Tag_EXIST(513, "标签已存在"),
-    Tag_INTERNAL_SERVER_ERROR(514,"标签添加失败" );
+    TAG_EXIST(513, "标签已存在"),
+    TAG_ADD_ERROR(514,"标签添加失败" ),
+    TAG_NOT_FOUND(515, "标签不存在"),
+    TAG_DELETE_ERROR(514,"标签删除失败" );
     int code;
     String msg;
 
