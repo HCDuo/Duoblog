@@ -5,14 +5,18 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.duo.constants.SystemConstants;
 import com.duo.domain.ResponseResult;
 import com.duo.domain.entity.Menu;
+import com.duo.domain.vo.MenuUpdateVo;
+import com.duo.domain.vo.TagVo;
 import com.duo.enums.AppHttpCodeEnum;
 import com.duo.exception.SystemException;
 import com.duo.mapper.MenuMapper;
 import com.duo.service.MenuService;
+import com.duo.utils.BeanCopyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Comparator;
@@ -95,6 +99,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
             throw new SystemException(AppHttpCodeEnum.MENU_EXIST);
         }
         // 将传入的menu对象保存到数据库中
+        menu.setCreateTime(new Date());
         int rows = menuMapper.insert(menu);
         if (rows > 0) {
             // 保存成功，返回包含添加的菜单数据的ResponseResult
@@ -102,6 +107,36 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         } else {
             // 保存失败，返回响应结果表示操作失败
             throw new SystemException(AppHttpCodeEnum.SYSTEM_ERROR);
+        }
+    }
+
+    @Override
+    public ResponseResult getMenuDetail(Long id) {
+        Menu menu = getById(id);
+        MenuUpdateVo menuUpdateVo = BeanCopyUtils.copyBean(menu, MenuUpdateVo.class);
+        return ResponseResult.okResult(menuUpdateVo);
+    }
+
+    @Override
+    public ResponseResult updateMenu(Menu menu) {
+        // 检查是否将父菜单设置为当前菜单
+        if (menu.getParentId() != null && menu.getId().equals(menu.getParentId())) {
+            return ResponseResult.errorResult(500, "修改菜单'" + menu.getMenuName() + "'失败，上级菜单不能选择自己");
+        }
+        menu.setUpdateTime(new Date());
+        // 将传入的menu对象更新到数据库中
+        try {
+            int rows = menuMapper.updateById(menu);
+            if (rows > 0) {
+                // 更新成功，返回成功响应
+                return ResponseResult.okResult();
+            } else {
+                // 更新失败，返回响应结果表示操作失败
+                return ResponseResult.errorResult(500, "修改菜单失败");
+            }
+        } catch (Exception e) {
+            // 捕获异常，返回响应结果表示操作失败
+            return ResponseResult.errorResult(500, "修改菜单失败：" + e.getMessage());
         }
     }
 

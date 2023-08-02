@@ -22,4 +22,8 @@ public interface MenuService extends IService<Menu> {
     ResponseResult<List<Menu>> adminMenuList(String status, String menuName);
 
     ResponseResult adminAddMenu(Menu menu);
+
+    ResponseResult getMenuDetail(Long id);
+
+    ResponseResult updateMenu(Menu menu);
 }

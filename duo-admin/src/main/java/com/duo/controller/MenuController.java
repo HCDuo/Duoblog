@@ -4,6 +4,7 @@ import com.duo.annotation.SystemLog;
 import com.duo.domain.ResponseResult;
 import com.duo.domain.entity.Article;
 import com.duo.domain.entity.Menu;
+import com.duo.domain.entity.Tag;
 import com.duo.service.ArticleService;
 import com.duo.service.MenuService;
 import io.swagger.annotations.Api;
@@ -33,8 +34,20 @@ public class MenuController {
     }
 
     @PostMapping()
-    @SystemLog(BusinessName = "展示菜单信息")
+    @SystemLog(BusinessName = "增加菜单")
     public ResponseResult adminAddMenu(@RequestBody Menu menu){
         return menuService.adminAddMenu(menu);
+    }
+
+    @GetMapping("/{id}")
+    @SystemLog(BusinessName = "显示具体菜单信息")
+    public ResponseResult getMenuDetail(@PathVariable("id") Long id){
+        return menuService.getMenuDetail(id);
+    }
+
+    @PutMapping()
+    @SystemLog(BusinessName = "修改具体菜单信息")
+    public ResponseResult updateMenu(@RequestBody Menu menu){
+        return menuService.updateMenu(menu);
     }
 }
