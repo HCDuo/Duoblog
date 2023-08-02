@@ -3,13 +3,17 @@ package com.duo.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.duo.constants.SystemConstants;
+import com.duo.domain.ResponseResult;
 import com.duo.domain.entity.Menu;
 import com.duo.mapper.MenuMapper;
 import com.duo.service.MenuService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Comparator;
 
 /**
  * 菜单权限表(Menu)表服务实现类
@@ -19,6 +23,11 @@ import java.util.stream.Collectors;
  */
 @Service("menuService")
 public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements MenuService {
+
+    @Autowired
+    private MenuMapper menuMapper;
+    @Autowired
+    private MenuService menuService;
 
     @Override
     public List<String> selectPermsByUserId(Long id) {
@@ -54,6 +63,24 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         //先找出第一层的菜单  然后去找他们的子菜单设置到children属性中
         List<Menu> menuTree = builderMenuTree(menus,0L);
         return menuTree;
+    }
+
+    @Override
+    public ResponseResult<List<Menu>> adminMenuList(String status, String menuName) {
+        // 构建查询条件(模糊查询)
+        LambdaQueryWrapper<Menu> wrapper = new LambdaQueryWrapper<>();
+        if (StringUtils.hasText(status)) {
+            wrapper.like(Menu::getStatus, status);
+        }
+        if (StringUtils.hasText(menuName)) {
+            wrapper.like(Menu::getMenuName, menuName);
+        }
+        // 组装响应数据
+        List<Menu> menuList = menuService.list(wrapper);
+        // 按照父菜单id和orderNum字段进行排序
+        menuList.sort(Comparator.comparing(Menu::getParentId)
+                .thenComparing(Menu::getOrderNum));
+        return ResponseResult.okResult(menuList);
     }
 
     private List<Menu> builderMenuTree(List<Menu> menus, Long parentId) {

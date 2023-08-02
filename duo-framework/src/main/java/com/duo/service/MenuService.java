@@ -1,6 +1,7 @@
 package com.duo.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.duo.domain.ResponseResult;
 import com.duo.domain.entity.Menu;
 
 import java.util.List;
@@ -18,4 +19,5 @@ public interface MenuService extends IService<Menu> {
 
     List<Menu> selectRouterMenuTreeByUserId(Long userId);
 
+    ResponseResult<List<Menu>> adminMenuList(String status, String menuName);
 }
