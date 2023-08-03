@@ -38,7 +38,8 @@ public enum AppHttpCodeEnum {
     ARTICLE_NOT_EXIST(520,"文章不存在" ),
     MENU_EXIST(521,"菜单存在" ),
     ADMIN_ERROR(522,"不能删除管理员"),
-    ROLE_EXIST(523, "角色已存在");
+    ROLE_EXIST(523, "角色已存在"),
+    ROLE_NOT_EXIST(524, "角色不存在");
     int code;
     String msg;
 

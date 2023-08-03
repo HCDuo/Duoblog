@@ -3,6 +3,8 @@ package com.duo.controller;
 import com.duo.annotation.SystemLog;
 import com.duo.domain.ResponseResult;
 import com.duo.domain.entity.Menu;
+import com.duo.domain.vo.MenuIdVo;
+import com.duo.domain.vo.MenuSimpleVo;
 import com.duo.domain.vo.MenuTreeVo;
 import com.duo.service.MenuService;
 import io.swagger.annotations.Api;
@@ -56,5 +58,13 @@ public class MenuController {
     @GetMapping("/treeselect")
     public ResponseResult<List<MenuTreeVo>> listMenuTree() {
         return menuService.listMenuTree();
+    }
+
+    @GetMapping("/roleMenuTreeselect/{id}")
+    public ResponseResult<List<MenuTreeVo>> roleMenuTreeselect(@PathVariable("id") Long id) {
+        List<Long> longs = menuService.selectMenuIdsByRoleId(id);
+        List<MenuSimpleVo> simpleMenuVos = menuService.selectTreeAll().getData();
+        MenuIdVo menuIdVo = new MenuIdVo(longs, simpleMenuVos);
+        return ResponseResult.okResult(menuIdVo);
     }
 }

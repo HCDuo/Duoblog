@@ -6,11 +6,13 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.duo.constants.SystemConstants;
 import com.duo.domain.ResponseResult;
 import com.duo.domain.entity.Menu;
+import com.duo.domain.vo.MenuSimpleVo;
 import com.duo.domain.vo.MenuTreeVo;
 import com.duo.domain.vo.MenuUpdateVo;
 import com.duo.enums.AppHttpCodeEnum;
 import com.duo.exception.SystemException;
 import com.duo.mapper.MenuMapper;
+import com.duo.mapper.RoleMenuMapper;
 import com.duo.service.MenuService;
 import com.duo.utils.BeanCopyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.Comparator;
 
@@ -35,6 +38,8 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     private MenuMapper menuMapper;
     @Autowired
     private MenuService menuService;
+    @Autowired
+    private RoleMenuMapper roleMenuMapper;
 
     @Override
     public List<String> selectPermsByUserId(Long id) {
@@ -176,6 +181,27 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         return ResponseResult.okResult(menuTreeVos);
     }
 
+    @Override
+    public List<Long> selectMenuIdsByRoleId(Long id) {
+        return roleMenuMapper.selectMenuIdsByRoleId(id);
+    }
+
+    @Override
+    public ResponseResult<List<MenuSimpleVo>> selectTreeAll() {
+        List<Menu> list = list();
+        List<MenuSimpleVo> menuSimpleVos = list.stream()
+                .map(menu -> {
+                    MenuSimpleVo simpleMenuVo = new MenuSimpleVo();
+                    simpleMenuVo.setId(menu.getId());
+                    simpleMenuVo.setLabel(menu.getMenuName());
+                    simpleMenuVo.setParentId(menu.getParentId());
+                    return simpleMenuVo;
+                })
+                .collect(Collectors.toList());
+        List<MenuSimpleVo> menuTree = buildMenuTree(menuSimpleVos);
+        return ResponseResult.okResult(menuTree);
+    }
+
     /**
      * 递归生成菜单下拉树
      *
@@ -189,7 +215,6 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
                 .peek(menu -> menu.setChildren(recurMenuTreeList(menu.getId(), menuTreeList)))
                 .collect(Collectors.toList());
     }
-
     private List<Menu> builderMenuTree(List<Menu> menus, Long parentId) {
         List<Menu> menuTree = menus.stream()
                 .filter(menu -> menu.getParentId().equals(parentId))
@@ -210,4 +235,36 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
                 .collect(Collectors.toList());
         return childrenList;
     }
+
+    /**
+     * 通过菜单节点列表，构建菜单树
+     *
+     * @param menuList 菜单节点列表
+     * @return 菜单树
+     */
+    private <T extends MenuSimpleVo> List<T> buildMenuTree(List<T> menuList) {
+        return menuList.stream()
+                //过滤出父菜单
+                .filter(menuVo -> Objects.equals(menuVo.getParentId(), 0L))
+                //把该结点作为父结点，查找该结点的子结点并赋值
+                .peek(menuVo -> menuVo.setChildren(getChild(menuVo.getId(), menuList)))
+                //返回结果
+                .collect(Collectors.toList());
+    }
+    /**
+     * 递归查找子菜单
+     *
+     * @param id         父节点id
+     * @param menuList 查询的菜单列表
+     * @return 子菜单列表
+     */
+    private <T extends MenuSimpleVo> List<T> getChild(Long id, List<T> menuList) {
+        return menuList.stream()
+                //过滤出该父节点的子节点
+                .filter(menuVo -> Objects.equals(menuVo.getParentId(), id))
+                //把该子结点作为父结点，递归查找出该子节点的的子结点并赋值
+                .peek(childrenMenuVo -> childrenMenuVo.setChildren(getChild(childrenMenuVo.getId(), menuList)))
+                .collect(Collectors.toList());
+    }
+
 }

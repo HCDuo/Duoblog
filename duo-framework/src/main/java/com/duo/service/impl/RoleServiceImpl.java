@@ -9,9 +9,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.duo.domain.ResponseResult;
 import com.duo.domain.dto.RoleAddDTO;
 import com.duo.domain.dto.RoleStatusDto;
-import com.duo.domain.entity.Article;
+import com.duo.domain.dto.RoleUpdateDto;
 import com.duo.domain.entity.Role;
 import com.duo.domain.vo.PageVo;
+import com.duo.domain.vo.RoleUpdateVo;
 import com.duo.enums.AppHttpCodeEnum;
 import com.duo.exception.SystemException;
 import com.duo.mapper.RoleMapper;
@@ -111,6 +112,34 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         roleMapper.insert(newRole);
         // 给权限
         roleMenuMapper.insertRoleMenu(newRole.getId(), roleAddDTO.getMenuIds());
+        return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult<?> adminRoleUpdateList(Long id) {
+        //找出信息
+        Role role = roleMapper.selectById(id);
+        if (role == null) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.ROLE_NOT_EXIST);
+        }
+
+        RoleUpdateVo roleUpdateVo = BeanCopyUtils.copyBean(role,RoleUpdateVo.class);
+        // 构建响应数据
+        return ResponseResult.okResult(roleUpdateVo);
+    }
+
+    @Override
+    public ResponseResult<?> updateRole(RoleUpdateDto roleUpdateDto) {
+        //找出这个id并匹配
+        Role role = BeanCopyUtils.copyBean(roleUpdateDto, Role.class);
+        updateById(role);
+        List<Integer> menuIds = roleUpdateDto.getMenuIds();
+        //删除roleMenu表中内容
+        roleMenuMapper.deleteRoleMenuByRoleId(role.getId());
+        //判断有没有更新，更新就加进roleMenuMapper表
+        if (menuIds != null && menuIds.size() > 0) {
+            roleMenuMapper.insertRoleMenu(role.getId(),menuIds);
+        }
         return ResponseResult.okResult();
     }
 }

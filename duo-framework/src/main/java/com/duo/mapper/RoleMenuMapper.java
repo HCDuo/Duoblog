@@ -17,4 +17,8 @@ import java.util.List;
 public interface RoleMenuMapper {
 
     void insertRoleMenu(@Param("roleId")Long id, @Param("menuIds") List<Integer> menuIds);
+
+    List<Long> selectMenuIdsByRoleId(Long id);
+
+    void deleteRoleMenuByRoleId(Long id);
 }
