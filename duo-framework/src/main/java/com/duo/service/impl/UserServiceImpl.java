@@ -1,9 +1,13 @@
 package com.duo.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.duo.domain.ResponseResult;
+import com.duo.domain.entity.Article;
 import com.duo.domain.entity.User;
+import com.duo.domain.vo.PageVo;
 import com.duo.domain.vo.UserInfoVo;
 import com.duo.enums.AppHttpCodeEnum;
 import com.duo.exception.SystemException;
@@ -16,6 +20,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.Date;
+
 /**
  * 用户表(User)表服务实现类
  *
@@ -27,6 +33,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
     public ResponseResult userInfo() {
@@ -72,9 +80,32 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         //对密码加密
         String encodePassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodePassword);
+        user.setCreateTime(new Date());
         //存入数据库
         save(user);
         return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult adminArticleList(Integer pageNum, Integer pageSize, String userName, String phonenumber, String status) {
+        // 构建查询条件(模糊查询)
+        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+        if (StringUtils.hasText(userName)) {
+            wrapper.like(User::getUserName, userName);
+        }
+        if (StringUtils.hasText(phonenumber)) {
+            wrapper.eq(User::getPhonenumber, phonenumber);
+        }
+        if (StringUtils.hasText(status)) {
+            wrapper.eq(User::getStatus, status);
+        }
+        // 分页查询
+        Page<User> page = new Page<>(pageNum, pageSize);
+        IPage<User> userPage = userMapper.selectPage(page, wrapper);
+
+        // 组装响应数据
+        PageVo pageVo = new PageVo(userPage.getRecords(), userPage.getTotal());
+        return ResponseResult.okResult(pageVo);
     }
 
     private boolean nickNameExist(String nickName) {
