@@ -7,6 +7,7 @@ import com.duo.domain.dto.RoleUpdateDto;
 import com.duo.domain.vo.PageVo;
 import com.duo.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,5 +49,10 @@ public class RoleController {
     @PutMapping
     public ResponseResult<?> updateRole(@RequestBody @Validated RoleUpdateDto roleUpdateDto) {
         return roleService.updateRole(roleUpdateDto);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseResult<?> deleteRole(@PathVariable Long id) {
+        return roleService.deleteRoleById(id);
     }
 }

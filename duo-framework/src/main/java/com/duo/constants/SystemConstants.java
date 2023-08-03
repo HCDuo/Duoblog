@@ -41,5 +41,8 @@ public class SystemConstants
      * 正常状态
      * */
     public static final String NORMAL = "0";
-
+    /**
+     * 超极管理员id
+     */
+    public static final long ADMIN_ID=1L;
 }

@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.duo.constants.SystemConstants;
 import com.duo.domain.ResponseResult;
 import com.duo.domain.dto.RoleAddDTO;
 import com.duo.domain.dto.RoleStatusDto;
@@ -141,5 +142,30 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
             roleMenuMapper.insertRoleMenu(role.getId(),menuIds);
         }
         return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult<?> deleteRoleById(Long id) {
+        //判断有没有这个角色
+        Role role = roleMapper.selectById(id);
+        if (role == null) {
+            throw new SystemException(AppHttpCodeEnum.ROLE_NOT_EXIST);
+        }
+        //超级管理员不能删除
+        if (id == SystemConstants.ADMIN_ID) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.CAN_NOT_DELETE_ADMIN);
+        }
+        //逻辑删除
+        LambdaUpdateWrapper<Role> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.eq(Role::getId,role.getId())
+                .set(Role::getDelFlag,1);
+        role.setUpdateTime(new Date());
+        int success = roleMapper.update(role,updateWrapper);
+        if (success > 0) {
+            roleMenuMapper.deleteRoleMenuByRoleId(id);
+            return ResponseResult.okResult();
+        } else {
+            throw new SystemException(AppHttpCodeEnum.SYSTEM_ERROR);
+        }
     }
 }
