@@ -2,10 +2,7 @@ package com.duo.controller;
 
 import com.duo.annotation.SystemLog;
 import com.duo.domain.ResponseResult;
-import com.duo.domain.entity.Article;
 import com.duo.domain.entity.Menu;
-import com.duo.domain.entity.Tag;
-import com.duo.service.ArticleService;
 import com.duo.service.MenuService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,5 +46,10 @@ public class MenuController {
     @SystemLog(BusinessName = "修改具体菜单信息")
     public ResponseResult updateMenu(@RequestBody Menu menu){
         return menuService.updateMenu(menu);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseResult deleteMenu(@PathVariable("id") Long id) {
+        return menuService.deleteMenu(id);
     }
 }

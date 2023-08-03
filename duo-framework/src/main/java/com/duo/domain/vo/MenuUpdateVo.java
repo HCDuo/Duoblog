@@ -1,13 +1,9 @@
 package com.duo.domain.vo;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.duo.domain.entity.Menu;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-import java.util.List;
 
 /**
  * <pre>

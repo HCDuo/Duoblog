@@ -1,12 +1,13 @@
 package com.duo.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.duo.constants.SystemConstants;
 import com.duo.domain.ResponseResult;
 import com.duo.domain.entity.Menu;
+import com.duo.domain.entity.Tag;
 import com.duo.domain.vo.MenuUpdateVo;
-import com.duo.domain.vo.TagVo;
 import com.duo.enums.AppHttpCodeEnum;
 import com.duo.exception.SystemException;
 import com.duo.mapper.MenuMapper;
@@ -137,6 +138,34 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         } catch (Exception e) {
             // 捕获异常，返回响应结果表示操作失败
             return ResponseResult.errorResult(500, "修改菜单失败：" + e.getMessage());
+        }
+    }
+
+    @Override
+    public ResponseResult deleteMenu(Long id) {
+        // 判断是否存在这个菜单
+        Menu menu = menuMapper.selectById(id);
+        if (menu == null) {
+            return ResponseResult.errorResult(500, "菜单不存在");
+        }
+
+        // 判断是否有子菜单
+        List<Menu> children = menuMapper.selectList(new LambdaQueryWrapper<Menu>().eq(Menu::getParentId, id));
+        if (!children.isEmpty()) {
+            return ResponseResult.errorResult(500, "存在子菜单不允许删除");
+        }
+
+        // 进行逻辑删除
+        LambdaUpdateWrapper<Menu> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.eq(Menu::getId, menu.getId())
+                .set(Menu::getDelFlag, 1);
+        int success = menuMapper.update(menu, updateWrapper);
+        if (success > 0) {
+            // 删除成功，返回成功响应
+            return ResponseResult.okResult();
+        } else {
+            // 删除失败，返回响应结果表示操作失败
+            return ResponseResult.errorResult(500, "删除菜单失败");
         }
     }
 
