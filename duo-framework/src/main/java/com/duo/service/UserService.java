@@ -2,6 +2,7 @@ package com.duo.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.duo.domain.ResponseResult;
+import com.duo.domain.dto.AddUserDto;
 import com.duo.domain.entity.User;
 
 
@@ -20,4 +21,6 @@ public interface UserService extends IService<User> {
     ResponseResult register(User user);
 
     ResponseResult adminArticleList(Integer pageNum, Integer pageSize, String userName, String phonenumber, String status);
+
+    ResponseResult<?> addUser(AddUserDto addUserDto);
 }

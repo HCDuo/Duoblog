@@ -13,6 +13,7 @@ import com.duo.domain.dto.RoleStatusDto;
 import com.duo.domain.dto.RoleUpdateDto;
 import com.duo.domain.entity.Role;
 import com.duo.domain.vo.PageVo;
+import com.duo.domain.vo.RoleSimpleVo;
 import com.duo.domain.vo.RoleUpdateVo;
 import com.duo.enums.AppHttpCodeEnum;
 import com.duo.exception.SystemException;
@@ -20,11 +21,13 @@ import com.duo.mapper.RoleMapper;
 import com.duo.mapper.RoleMenuMapper;
 import com.duo.service.RoleService;
 import com.duo.utils.BeanCopyUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -167,5 +170,14 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         } else {
             throw new SystemException(AppHttpCodeEnum.SYSTEM_ERROR);
         }
+    }
+
+    @Override
+    public ResponseResult<List<RoleSimpleVo>> getAllRole() {
+        LambdaQueryWrapper<Role> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Role::getStatus, 0);
+        List<Role> roleList = list(wrapper);
+        List<RoleSimpleVo> roleSimpleVoList = BeanCopyUtils.copyBeanList(roleList, RoleSimpleVo.class);
+        return ResponseResult.okResult(roleSimpleVoList);
     }
 }

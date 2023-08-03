@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.duo.domain.ResponseResult;
+import com.duo.domain.dto.AddUserDto;
 import com.duo.domain.entity.Article;
 import com.duo.domain.entity.User;
 import com.duo.domain.vo.PageVo;
@@ -106,6 +107,40 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // 组装响应数据
         PageVo pageVo = new PageVo(userPage.getRecords(), userPage.getTotal());
         return ResponseResult.okResult(pageVo);
+    }
+
+    @Override
+    public ResponseResult<?> addUser(AddUserDto addUserDto) {
+        //对数据进行判断
+        //首先不能为空
+        if(!StringUtils.hasText(addUserDto.getUserName())){
+            throw new SystemException(AppHttpCodeEnum.USERNAME_NOT_NULL);
+        }
+        if(!StringUtils.hasText(addUserDto.getPassword())){
+            throw new SystemException(AppHttpCodeEnum.PASSWORD_NOT_NULL);
+        }
+        if(!StringUtils.hasText(addUserDto.getEmail())){
+            throw new SystemException(AppHttpCodeEnum.EMAIL_NOT_NULL);
+        }
+        if(!StringUtils.hasText(addUserDto.getNickName())){
+            throw new SystemException(AppHttpCodeEnum.NICKNAME_NOT_NULL);
+        }
+        //判断是否存在
+        if(userNameExist(addUserDto.getUserName())){
+            throw new SystemException(AppHttpCodeEnum.USERNAME_EXIST);
+        }
+        if(nickNameExist(addUserDto.getNickName())){
+            throw new SystemException(AppHttpCodeEnum.NICKNAME_EXIST);
+        }
+        //对密码加密
+        String encodePassword = passwordEncoder.encode(addUserDto.getPassword());
+        addUserDto.setPassword(encodePassword);
+        User user = BeanCopyUtils.copyBean(addUserDto,User.class);
+        user.setCreateTime(new Date());
+        //存入数据库
+        save(user);
+        userMapper.insertUserRole(user.getId(),addUserDto.getRoleIds());
+        return ResponseResult.okResult();
     }
 
     private boolean nickNameExist(String nickName) {

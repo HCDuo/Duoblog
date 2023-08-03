@@ -1,12 +1,11 @@
 package com.duo.controller;
 
 import com.duo.domain.ResponseResult;
-import com.duo.service.RoleService;
+import com.duo.domain.dto.AddUserDto;
+import com.duo.domain.dto.RoleAddDTO;
 import com.duo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <pre>
@@ -22,12 +21,13 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private RoleService roleService;
-
     @GetMapping("/list")
     public ResponseResult adminArticleList(Integer pageNum, Integer pageSize, String userName, String phonenumber,String status){
         return userService.adminArticleList(pageNum,pageSize,userName,phonenumber,status);
     }
 
+    @PostMapping()
+    public ResponseResult<?> addUser(@RequestBody AddUserDto addUserDto) {
+        return userService.addUser(addUserDto);
+    }
 }

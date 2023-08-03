@@ -5,11 +5,14 @@ import com.duo.domain.dto.RoleAddDTO;
 import com.duo.domain.dto.RoleStatusDto;
 import com.duo.domain.dto.RoleUpdateDto;
 import com.duo.domain.vo.PageVo;
+import com.duo.domain.vo.RoleSimpleVo;
 import com.duo.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <pre>
@@ -54,5 +57,10 @@ public class RoleController {
     @DeleteMapping("/{id}")
     public ResponseResult<?> deleteRole(@PathVariable Long id) {
         return roleService.deleteRoleById(id);
+    }
+
+    @GetMapping("/listAllRole")
+    public ResponseResult<List<RoleSimpleVo>> listAllRole() {
+        return roleService.getAllRole();
     }
 }

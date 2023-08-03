@@ -7,6 +7,7 @@ import com.duo.domain.dto.RoleStatusDto;
 import com.duo.domain.dto.RoleUpdateDto;
 import com.duo.domain.entity.Role;
 import com.duo.domain.vo.PageVo;
+import com.duo.domain.vo.RoleSimpleVo;
 
 import java.util.List;
 
@@ -32,4 +33,6 @@ public interface RoleService extends IService<Role> {
     ResponseResult<?> updateRole(RoleUpdateDto roleUpdateDto);
 
     ResponseResult<?> deleteRoleById(Long id);
+
+    ResponseResult<List<RoleSimpleVo>> getAllRole();
 }

@@ -1,23 +1,23 @@
-package com.duo.domain.entity;
+package com.duo.domain.vo;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+
 /**
- * 角色信息表(Role)表实体类
+ * <pre>
  *
- * @author makejava
- * @since 2023-07-31 19:09:55
+ * </pre>
+ *
+ * @author <a href="https://github.com/HCDUO">HCDUO</a>
+ * @date:2023/8/4 1:07
  */
-@SuppressWarnings("serial")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@TableName("sys_role")
-public class Role  {
+@AllArgsConstructor
+public class RoleSimpleVo {
     //角色ID@TableId
     private Long id;
     //角色名称
@@ -36,8 +36,6 @@ public class Role  {
     private Date createTime;
     //更新者
     private Long updateBy;
-    //更新时间
-    private Date updateTime;
     //备注
     private String remark;
 
