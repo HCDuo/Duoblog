@@ -2,6 +2,7 @@ package com.duo.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.duo.domain.entity.Menu;
+import com.duo.domain.vo.MenuTreeVo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -22,4 +23,5 @@ public interface MenuMapper extends BaseMapper<Menu> {
 
     List<Menu> selectRouterMenuTreeByUserId(Long userId);
 
+    List<MenuTreeVo> selectMenuTree();
 }

@@ -1,12 +1,12 @@
 package com.duo.controller;
 
 import com.duo.domain.ResponseResult;
+import com.duo.domain.dto.AddArticleDto;
+import com.duo.domain.dto.RoleAddDTO;
 import com.duo.domain.dto.RoleStatusDto;
-import com.duo.domain.dto.TagListDto;
 import com.duo.domain.vo.PageVo;
 import com.duo.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,5 +33,10 @@ public class RoleController {
     @PutMapping("/changeStatus")
     public ResponseResult<?> changeStatus(@Validated @RequestBody RoleStatusDto roleStatus) {
         return roleService.changeStatus(roleStatus);
+    }
+
+    @PostMapping()
+    public ResponseResult<?> addRole(@RequestBody RoleAddDTO roleAddDTO) {
+        return roleService.addRole(roleAddDTO);
     }
 }

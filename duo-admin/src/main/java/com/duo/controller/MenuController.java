@@ -3,6 +3,7 @@ package com.duo.controller;
 import com.duo.annotation.SystemLog;
 import com.duo.domain.ResponseResult;
 import com.duo.domain.entity.Menu;
+import com.duo.domain.vo.MenuTreeVo;
 import com.duo.service.MenuService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,5 +52,9 @@ public class MenuController {
     @DeleteMapping("/{id}")
     public ResponseResult deleteMenu(@PathVariable("id") Long id) {
         return menuService.deleteMenu(id);
+    }
+    @GetMapping("/treeselect")
+    public ResponseResult<List<MenuTreeVo>> listMenuTree() {
+        return menuService.listMenuTree();
     }
 }

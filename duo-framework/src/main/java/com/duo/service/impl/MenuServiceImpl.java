@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.duo.constants.SystemConstants;
 import com.duo.domain.ResponseResult;
 import com.duo.domain.entity.Menu;
-import com.duo.domain.entity.Tag;
+import com.duo.domain.vo.MenuTreeVo;
 import com.duo.domain.vo.MenuUpdateVo;
 import com.duo.enums.AppHttpCodeEnum;
 import com.duo.exception.SystemException;
@@ -167,6 +167,27 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
             // 删除失败，返回响应结果表示操作失败
             return ResponseResult.errorResult(500, "删除菜单失败");
         }
+    }
+
+    @Override
+    public ResponseResult<List<MenuTreeVo>> listMenuTree() {
+        List<MenuTreeVo> menuTreeList = menuMapper.selectMenuTree();
+        List<MenuTreeVo> menuTreeVos = recurMenuTreeList(0,menuTreeList);
+        return ResponseResult.okResult(menuTreeVos);
+    }
+
+    /**
+     * 递归生成菜单下拉树
+     *
+     * @param parentId     父菜单id
+     * @param menuTreeList 菜单树列表
+     * @return 菜单列表
+     */
+    private List<MenuTreeVo> recurMenuTreeList(Integer parentId, List<MenuTreeVo> menuTreeList) {
+        return menuTreeList.stream()
+                .filter(menu -> menu.getParentId().equals(parentId))
+                .peek(menu -> menu.setChildren(recurMenuTreeList(menu.getId(), menuTreeList)))
+                .collect(Collectors.toList());
     }
 
     private List<Menu> builderMenuTree(List<Menu> menus, Long parentId) {

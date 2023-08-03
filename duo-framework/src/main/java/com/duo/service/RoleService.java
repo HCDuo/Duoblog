@@ -2,6 +2,7 @@ package com.duo.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.duo.domain.ResponseResult;
+import com.duo.domain.dto.RoleAddDTO;
 import com.duo.domain.dto.RoleStatusDto;
 import com.duo.domain.entity.Role;
 import com.duo.domain.vo.PageVo;
@@ -22,4 +23,6 @@ public interface RoleService extends IService<Role> {
     ResponseResult<PageVo> pageRoleList(Integer pageNum, Integer pageSize, String roleName, String status);
 
     ResponseResult<?> changeStatus(RoleStatusDto roleStatus);
+
+    ResponseResult<?> addRole(RoleAddDTO roleAddDTO);
 }

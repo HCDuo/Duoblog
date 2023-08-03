@@ -37,7 +37,8 @@ public enum AppHttpCodeEnum {
     TAG_UPDATE_ERROR(519, "标签更新错误"),
     ARTICLE_NOT_EXIST(520,"文章不存在" ),
     MENU_EXIST(521,"菜单存在" ),
-    ADMIN_ERROR(522,"不能删除管理员");
+    ADMIN_ERROR(522,"不能删除管理员"),
+    ROLE_EXIST(523, "角色已存在");
     int code;
     String msg;
 

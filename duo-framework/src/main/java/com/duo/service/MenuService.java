@@ -3,6 +3,7 @@ package com.duo.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.duo.domain.ResponseResult;
 import com.duo.domain.entity.Menu;
+import com.duo.domain.vo.MenuTreeVo;
 
 import java.util.List;
 
@@ -28,4 +29,7 @@ public interface MenuService extends IService<Menu> {
     ResponseResult updateMenu(Menu menu);
 
     ResponseResult deleteMenu(Long id);
+
+    ResponseResult<List<MenuTreeVo>> listMenuTree();
+
 }

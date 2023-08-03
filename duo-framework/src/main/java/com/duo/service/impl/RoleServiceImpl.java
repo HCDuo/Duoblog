@@ -1,11 +1,13 @@
 package com.duo.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.duo.domain.ResponseResult;
+import com.duo.domain.dto.RoleAddDTO;
 import com.duo.domain.dto.RoleStatusDto;
 import com.duo.domain.entity.Article;
 import com.duo.domain.entity.Role;
@@ -13,12 +15,15 @@ import com.duo.domain.vo.PageVo;
 import com.duo.enums.AppHttpCodeEnum;
 import com.duo.exception.SystemException;
 import com.duo.mapper.RoleMapper;
+import com.duo.mapper.RoleMenuMapper;
 import com.duo.service.RoleService;
+import com.duo.utils.BeanCopyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,6 +37,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
     @Autowired
     private RoleMapper roleMapper;
+    @Autowired
+    private RoleMenuMapper roleMenuMapper;
 
     @Override
     public List<String> selectRoleKeyByUserId(Long id) {
@@ -88,5 +95,22 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
             // 状态更新失败
             return ResponseResult.errorResult(AppHttpCodeEnum.SYSTEM_ERROR);
         }
+    }
+
+    @Override
+    public ResponseResult<?> addRole(RoleAddDTO roleAddDTO) {
+        // 角色名是否存在
+        String roleName = roleAddDTO.getRoleName();
+        Role existingRole = roleMapper.selectOne(new QueryWrapper<Role>().eq("role_name", roleName));
+        if (existingRole != null) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.ROLE_EXIST);
+        }
+        // 添加新角色
+        Role newRole = BeanCopyUtils.copyBean(roleAddDTO, Role.class);
+        newRole.setCreateTime(new Date());
+        roleMapper.insert(newRole);
+        // 给权限
+        roleMenuMapper.insertRoleMenu(newRole.getId(), roleAddDTO.getMenuIds());
+        return ResponseResult.okResult();
     }
 }
