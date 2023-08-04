@@ -1,6 +1,7 @@
 package com.duo.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -94,5 +95,24 @@ public class LinkServiceImpl extends ServiceImpl<LinkMapper, Link> implements Li
         return ResponseResult.okResult();
     }
 
+    @Override
+    public ResponseResult<?> deleteLink(Long id) {
+        //判断有没有这个角色
+        Link link = linkMapper.selectById(id);
+        if (link == null) {
+            throw new SystemException(AppHttpCodeEnum.LINK_NOT_EXIST);
+        }
+        //逻辑删除
+        LambdaUpdateWrapper<Link> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.eq(Link::getId,link.getId())
+                .set(Link::getDelFlag,1);
+        link.setUpdateTime(new Date());
+        int success = linkMapper.update(link,updateWrapper);
+        if (success > 0) {
+            return ResponseResult.okResult();
+        } else {
+            throw new SystemException(AppHttpCodeEnum.SYSTEM_ERROR);
+        }
+    }
 
 }

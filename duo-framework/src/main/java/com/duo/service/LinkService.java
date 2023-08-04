@@ -24,4 +24,6 @@ public interface LinkService extends IService<Link> {
     ResponseResult<?> getLink(Long id);
 
     ResponseResult<?> updateLink(LinkDto linkDto);
+
+    ResponseResult<?> deleteLink(Long id);
 }

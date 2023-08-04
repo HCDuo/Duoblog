@@ -44,4 +44,8 @@ public class LinkController {
         return linkService.updateLink(linkDto);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseResult<?> deleteLink(@PathVariable("id") Long id) {
+        return linkService.deleteLink(id);
+    }
 }
