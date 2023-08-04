@@ -8,7 +8,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.duo.domain.ResponseResult;
 import com.duo.domain.dto.AddUserDto;
 import com.duo.domain.dto.UserDto;
-import com.duo.domain.entity.Article;
 import com.duo.domain.entity.User;
 import com.duo.domain.vo.*;
 import com.duo.enums.AppHttpCodeEnum;

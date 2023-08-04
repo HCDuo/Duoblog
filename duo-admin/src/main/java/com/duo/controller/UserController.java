@@ -2,7 +2,6 @@ package com.duo.controller;
 
 import com.duo.domain.ResponseResult;
 import com.duo.domain.dto.AddUserDto;
-import com.duo.domain.dto.RoleAddDTO;
 import com.duo.domain.dto.UserDto;
 import com.duo.domain.vo.UserUpdateVo;
 import com.duo.service.UserService;
@@ -10,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * <pre>

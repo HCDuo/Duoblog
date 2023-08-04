@@ -21,13 +21,11 @@ import com.duo.mapper.RoleMapper;
 import com.duo.mapper.RoleMenuMapper;
 import com.duo.service.RoleService;
 import com.duo.utils.BeanCopyUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
