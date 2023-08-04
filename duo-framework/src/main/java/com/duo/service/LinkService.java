@@ -3,6 +3,7 @@ package com.duo.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.duo.domain.ResponseResult;
 import com.duo.domain.entity.Link;
+import com.duo.domain.vo.PageVo;
 
 
 /**
@@ -14,4 +15,6 @@ import com.duo.domain.entity.Link;
 public interface LinkService extends IService<Link> {
 
     ResponseResult getAllLink();
+
+    ResponseResult<PageVo> Linklist(Integer pageNum, Integer pageSize, String name, String status);
 }
