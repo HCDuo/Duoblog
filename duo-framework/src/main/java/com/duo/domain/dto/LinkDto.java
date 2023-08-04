@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * <pre>
- *
+ * 友链DTO
  * </pre>
  *
  * @author <a href="https://github.com/HCDUO">HCDUO</a>

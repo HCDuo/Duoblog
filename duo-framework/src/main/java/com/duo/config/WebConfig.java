@@ -16,6 +16,8 @@ import java.util.List;
 /**
  * <pre>
  * 解决跨域问题
+ * WebConfig 配置类中通过实现 WebMvcConfigurer 接口来自定义 Spring MVC 的配置。
+ * 它解决了跨域问题，并配置了 FastJson 作为消息转换器，用于处理 JSON 格式的数据，同时设置了 JSON 输出的格式和日期格式化的样
  * </pre>
  *
  * @author <a href="https://github.com/HCDUO">HCDUO</a>

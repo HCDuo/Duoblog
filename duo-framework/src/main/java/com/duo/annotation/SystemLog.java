@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 /**
  * <pre>
- *
+ *  用于记录日志
  * </pre>
  *
  * @author <a href="https://github.com/HCDUO">HCDUO</a>

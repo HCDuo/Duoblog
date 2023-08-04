@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * <pre>
- *
+ * 添加文章DTO
  * </pre>
  *
  * @author <a href="https://github.com/HCDUO">HCDUO</a>

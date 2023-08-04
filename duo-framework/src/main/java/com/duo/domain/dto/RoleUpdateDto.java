@@ -1,5 +1,6 @@
 package com.duo.domain.dto;
 
+import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +9,7 @@ import java.util.List;
 
 /**
  * <pre>
- *
+ * 角色更新DTO
  * </pre>
  *
  * @author <a href="https://github.com/HCDUO">HCDUO</a>
@@ -17,6 +18,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ApiModel(description = "角色更新DTO")
 public class RoleUpdateDto {
 
     private Long id;

@@ -16,7 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * <pre>
- *
+ *  这是一个使用 Spring AOP 的切面类 LogAspect，用于实现对带有 @SystemLog 注解的方法进行日志记录的功能。
+ *  实现了在带有 @SystemLog 注解的方法执行前后记录日志信息的功能。
+ *  通过 AOP 的切面技术，我们可以将日志记录的逻辑从业务逻辑中解耦出来，使代码更加清晰和可维护
  * </pre>
  *
  * @author <a href="https://github.com/HCDUO">HCDUO</a>

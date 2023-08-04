@@ -7,9 +7,14 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
+ * <pre>
+ *  RedisConfig 配置类中通过 @Bean 注解创建了一个 RedisTemplate<Object, Object> 的 Bean，
+ *  并设置了其 key 和 value 的序列化器为 StringRedisSerializer 和 FastJsonRedisSerializer。
+ *  这样配置后，当你使用 RedisTemplate 来操作 Redis 数据库时，数据将以 JSON 格式进行序列化和反序列化，方便数据的存取和交互
+ * </pre>
  *
  * @author <a href="https://github.com/HCDUO">HCDUO</a>
- * @date:2023/7/26 21:21
+ * @date:2023/7/26 21:20
  */
 
 @Configuration

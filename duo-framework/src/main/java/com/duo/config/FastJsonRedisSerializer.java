@@ -12,6 +12,7 @@ import java.nio.charset.Charset;
 
 /**
  * Redis使用FastJson序列化
+ * 用于将对象序列化成字节数组并反序列化回对象。它使用 FastJson 库进行序列化和反序列化操作，从而实现在 Redis 中存储对象数据。
  *
  * @author <a href="https://github.com/HCDUO">HCDUO</a>
  * @date:2023/7/26 21:20

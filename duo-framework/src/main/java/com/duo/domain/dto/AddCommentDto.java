@@ -9,7 +9,7 @@ import java.util.Date;
 
 /**
  * <pre>
- *
+ * 添加评论DTO
  * </pre>
  *
  * @author <a href="https://github.com/HCDUO">HCDUO</a>
