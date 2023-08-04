@@ -1,6 +1,7 @@
 package com.duo.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -141,6 +142,27 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         save(user);
         userMapper.insertUserRole(user.getId(),addUserDto.getRoleIds());
         return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult<Object> deleteUser(Long id) {
+        //判断id
+        User user = userMapper.selectById(id);
+        if (user == null) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.USER_NOT_EXIST);
+        }
+        //逻辑删除
+        LambdaUpdateWrapper<User> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.eq(User::getId,id)
+                        .set(User::getDelFlag,1);
+        user.setUpdateTime(new Date());
+        int success = userMapper.update(user,updateWrapper);
+        if (success > 0) {
+            userMapper.deleteUserRole(id);
+            return ResponseResult.okResult();
+        } else {
+            throw new SystemException(AppHttpCodeEnum.SYSTEM_ERROR);
+        }
     }
 
     private boolean nickNameExist(String nickName) {

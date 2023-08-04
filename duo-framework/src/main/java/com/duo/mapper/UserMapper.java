@@ -18,4 +18,6 @@ import java.util.List;
 public interface UserMapper extends BaseMapper<User> {
 
     boolean insertUserRole(@Param("userId") Long userId, @Param("roleIds") List<Long> roleIds);
+
+    void deleteUserRole(Long id);
 }

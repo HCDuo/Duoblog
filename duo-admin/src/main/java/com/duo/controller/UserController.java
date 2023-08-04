@@ -5,6 +5,7 @@ import com.duo.domain.dto.AddUserDto;
 import com.duo.domain.dto.RoleAddDTO;
 import com.duo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -29,5 +30,9 @@ public class UserController {
     @PostMapping()
     public ResponseResult<?> addUser(@RequestBody AddUserDto addUserDto) {
         return userService.addUser(addUserDto);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseResult<Object> deleteUser(@PathVariable Long id){
+        return userService.deleteUser(id);
     }
 }

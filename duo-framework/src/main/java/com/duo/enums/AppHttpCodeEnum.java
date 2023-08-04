@@ -40,7 +40,8 @@ public enum AppHttpCodeEnum {
     ADMIN_ERROR(522,"不能删除管理员"),
     ROLE_EXIST(523, "角色已存在"),
     ROLE_NOT_EXIST(524, "角色不存在"),
-    CAN_NOT_DELETE_ADMIN(525, "管理员不能删除");
+    CAN_NOT_DELETE_ADMIN(525, "管理员不能删除"),
+    USER_NOT_EXIST(526, "用户不存在");
     int code;
     String msg;
 

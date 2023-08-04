@@ -23,4 +23,6 @@ public interface UserService extends IService<User> {
     ResponseResult adminArticleList(Integer pageNum, Integer pageSize, String userName, String phonenumber, String status);
 
     ResponseResult<?> addUser(AddUserDto addUserDto);
+
+    ResponseResult<Object> deleteUser(Long id);
 }
