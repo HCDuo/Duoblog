@@ -1,13 +1,13 @@
 package com.duo.controller;
 
 import com.duo.domain.ResponseResult;
+import com.duo.domain.dto.CategoryDto;
 import com.duo.domain.vo.CategoryVo;
 import com.duo.domain.vo.PageVo;
 import com.duo.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,6 +33,11 @@ public class CategoryController {
     @GetMapping("/list")
     public ResponseResult<PageVo> listCategory(Integer pageNum, Integer pageSize, String name, String status){
         return categoryService.listCategory(pageNum,pageSize,name,status);
+    }
+
+    @PostMapping
+    public ResponseResult<?> addCategory(@RequestBody @Validated CategoryDto categoryDto) {
+        return categoryService.addCategory(categoryDto);
     }
 
 }

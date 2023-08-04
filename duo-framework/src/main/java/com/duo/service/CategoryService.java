@@ -2,6 +2,7 @@ package com.duo.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.duo.domain.ResponseResult;
+import com.duo.domain.dto.CategoryDto;
 import com.duo.domain.entity.Category;
 import com.duo.domain.vo.CategoryVo;
 import com.duo.domain.vo.PageVo;
@@ -22,4 +23,6 @@ public interface CategoryService extends IService<Category> {
     List<CategoryVo> listAllCategory();
 
     ResponseResult<PageVo> listCategory(Integer pageNum, Integer pageSize, String name, String status);
+
+    ResponseResult<?> addCategory(CategoryDto categoryDto);
 }

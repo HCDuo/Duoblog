@@ -6,9 +6,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.duo.constants.SystemConstants;
 import com.duo.domain.ResponseResult;
+import com.duo.domain.dto.CategoryDto;
 import com.duo.domain.entity.Article;
 import com.duo.domain.entity.Category;
-import com.duo.domain.entity.Role;
 import com.duo.domain.vo.CategoryVo;
 import com.duo.domain.vo.PageVo;
 import com.duo.mapper.CategoryMapper;
@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -84,5 +85,13 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         // 组装响应数据
         PageVo pageVo = new PageVo(rolePage.getRecords(), rolePage.getTotal());
         return ResponseResult.okResult(pageVo);
+    }
+
+    @Override
+    public ResponseResult<?> addCategory(CategoryDto categoryDto) {
+        Category category = BeanCopyUtils.copyBean(categoryDto, Category.class);
+        category.setCreateTime(new Date());
+        save(category);
+        return ResponseResult.okResult();
     }
 }
