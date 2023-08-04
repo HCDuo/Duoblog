@@ -27,6 +27,7 @@ public class ArticleController {
     private ArticleService articleService;
     @GetMapping("/list")
     @SystemLog(BusinessName = "展示文章全部信息")
+    @ApiOperation(value = "文章列表",notes = "展示文章")
     public List<Article> test(){
         return articleService.list();
     }

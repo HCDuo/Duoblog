@@ -24,7 +24,10 @@ import java.util.Objects;
 
 /**
  * <pre>
- *
+ * JwtAuthenticationTokenFilter 是一个自定义的过滤器，用于处理 JWT 身份认证。
+ * 它从请求头中获取 JWT token，并根据 token 解析出用户ID。然后通过用户ID从 Redis 中获取用户信息，
+ * 并将用户信息存入 SecurityContextHolder 中，以便后续处理请求时获取当前用户信息。
+ * 如果请求头中没有 token，说明该接口不需要登录，直接放行。如果 token 解析失败或者获取不到用户信息，会返回相应的错误提示
  * </pre>
  *
  * @author <a href="https://github.com/HCDUO">HCDUO</a>

@@ -13,7 +13,8 @@ import java.util.stream.Collectors;
 
 /**
  * <pre>
- *
+ * UpdateViewCountJob 是一个定时任务，每小时的整点时刻执行一次，用于将 Redis 中存储的文章浏览量数据更新到数据库中。
+ * 它通过批量更新操作将数据更新到数据库中，从而保持数据库中的浏览量与 Redis 中的数据同步
  * </pre>
  *
  * @author <a href="https://github.com/HCDUO">HCDUO</a>

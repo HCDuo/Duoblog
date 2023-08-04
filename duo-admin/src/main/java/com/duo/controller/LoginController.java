@@ -1,5 +1,6 @@
 package com.duo.controller;
 
+import com.duo.annotation.SystemLog;
 import com.duo.domain.ResponseResult;
 import com.duo.domain.entity.LoginUser;
 import com.duo.domain.entity.Menu;
@@ -14,6 +15,8 @@ import com.duo.service.MenuService;
 import com.duo.service.RoleService;
 import com.duo.utils.BeanCopyUtils;
 import com.duo.utils.SecurityUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +35,7 @@ import java.util.List;
  * @date:2023/7/31 17:41
  */
 @RestController
+@Api(tags = "登录操作",description = "登录操作相关接口")
 public class LoginController {
     @Autowired
     private LoginService loginService;
@@ -43,6 +47,8 @@ public class LoginController {
     private RoleService roleService;
 
     @PostMapping("/user/login")
+    @SystemLog(BusinessName = "登录")
+    @ApiOperation(value = "登录",notes = "登录")
     public ResponseResult login(@RequestBody User user){
         if(!StringUtils.hasText(user.getUserName())){
             //提示 必须要传用户名
@@ -52,6 +58,8 @@ public class LoginController {
     }
 
     @GetMapping("getInfo")
+    @SystemLog(BusinessName = "获得角色")
+    @ApiOperation(value = "获得角色",notes = "获得角色")
     public ResponseResult<AdminUserInfoVo> getInfo(){
         //获取当前登录的用户
         LoginUser loginUser = SecurityUtils.getLoginUser();
@@ -68,6 +76,8 @@ public class LoginController {
     }
 
     @GetMapping("getRouters")
+    @SystemLog(BusinessName = "得到权限")
+    @ApiOperation(value = "得到权限",notes = "得到权限")
     public ResponseResult<RoutersVo> getRouters(){
         Long userId = SecurityUtils.getUserId();
         //查询menu 结果是tree的形式
@@ -77,6 +87,8 @@ public class LoginController {
     }
 
     @PostMapping("/user/logout")
+    @SystemLog(BusinessName = "登出")
+    @ApiOperation(value = "登出",notes = "登出")
     public ResponseResult logout(){
         return loginService.logout();
     }

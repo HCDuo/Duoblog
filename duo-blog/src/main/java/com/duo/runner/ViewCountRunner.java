@@ -13,7 +13,8 @@ import java.util.stream.Collectors;
 
 /**
  * <pre>
- *
+ * ViewCountRunner 是一个在应用启动时被自动执行的组件，它查询数据库中的博客信息，并将文章ID和浏览量数据存储到 Redis 缓存中，
+ * 以便后续的定时任务能够使用这些数据进行更新操作。这样可以保证在应用启动时，Redis 缓存中已经有了最新的文章浏览量数据，避免数据同步问题
  * </pre>
  *
  * @author <a href="https://github.com/HCDUO">HCDUO</a>
