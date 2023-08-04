@@ -49,4 +49,9 @@ public class CategoryController {
     public ResponseResult<?> updateCategory(@RequestBody @Validated CategoryDto categoryDto) {
         return categoryService.updateCategory(categoryDto);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseResult<?> deleteCategory(@PathVariable("id") Long id) {
+        return categoryService.deleteCategory(id);
+    }
 }

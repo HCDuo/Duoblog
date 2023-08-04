@@ -1,6 +1,7 @@
 package com.duo.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -9,9 +10,12 @@ import com.duo.domain.ResponseResult;
 import com.duo.domain.dto.CategoryDto;
 import com.duo.domain.entity.Article;
 import com.duo.domain.entity.Category;
+import com.duo.domain.entity.Role;
 import com.duo.domain.vo.CategoryUpdateVo;
 import com.duo.domain.vo.CategoryVo;
 import com.duo.domain.vo.PageVo;
+import com.duo.enums.AppHttpCodeEnum;
+import com.duo.exception.SystemException;
 import com.duo.mapper.CategoryMapper;
 import com.duo.service.ArticleService;
 import com.duo.service.CategoryService;
@@ -109,5 +113,25 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         category.setUpdateTime(new Date());
         updateById(category);
         return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult<?> deleteCategory(Long id) {
+        //判断有没有这个角色
+        Category category = categoryMapper.selectById(id);
+        if (category == null) {
+            throw new SystemException(AppHttpCodeEnum.CATEGORY_NOT_ESIXT);
+        }
+        //逻辑删除
+        LambdaUpdateWrapper<Category> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.eq(Category::getId,category.getId())
+                .set(Category::getDelFlag,1);
+        category.setUpdateTime(new Date());
+        int success = categoryMapper.update(category,updateWrapper);
+        if (success > 0) {
+            return ResponseResult.okResult();
+        } else {
+            throw new SystemException(AppHttpCodeEnum.SYSTEM_ERROR);
+        }
     }
 }

@@ -29,4 +29,6 @@ public interface CategoryService extends IService<Category> {
     ResponseResult<?> getCategoryById(Integer id);
 
     ResponseResult<?> updateCategory(CategoryDto categoryDto);
+
+    ResponseResult<?> deleteCategory(Long id);
 }
