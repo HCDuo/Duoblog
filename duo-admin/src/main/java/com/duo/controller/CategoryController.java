@@ -2,6 +2,7 @@ package com.duo.controller;
 
 import com.duo.domain.ResponseResult;
 import com.duo.domain.vo.CategoryVo;
+import com.duo.domain.vo.PageVo;
 import com.duo.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +30,9 @@ public class CategoryController {
         List<CategoryVo> list = categoryService.listAllCategory();
         return ResponseResult.okResult(list);
     }
-
+    @GetMapping("/list")
+    public ResponseResult<PageVo> listCategory(Integer pageNum, Integer pageSize, String name, String status){
+        return categoryService.listCategory(pageNum,pageSize,name,status);
+    }
 
 }

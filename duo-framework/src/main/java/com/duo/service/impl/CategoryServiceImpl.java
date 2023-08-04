@@ -1,18 +1,23 @@
 package com.duo.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.duo.constants.SystemConstants;
 import com.duo.domain.ResponseResult;
 import com.duo.domain.entity.Article;
 import com.duo.domain.entity.Category;
+import com.duo.domain.entity.Role;
 import com.duo.domain.vo.CategoryVo;
+import com.duo.domain.vo.PageVo;
 import com.duo.mapper.CategoryMapper;
 import com.duo.service.ArticleService;
 import com.duo.service.CategoryService;
 import com.duo.utils.BeanCopyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Set;
@@ -29,6 +34,8 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
 
     @Autowired
     private ArticleService articleService;
+    @Autowired
+    private CategoryMapper categoryMapper;
 
     @Override
     public ResponseResult getCategoryList() {
@@ -60,5 +67,22 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         List<CategoryVo> categoryVos = BeanCopyUtils.copyBeanList(list, CategoryVo.class);
         //返回数据
         return categoryVos;
+    }
+
+    @Override
+    public ResponseResult<PageVo> listCategory(Integer pageNum, Integer pageSize, String name, String status) {
+        // 构建查询条件(模糊查询)
+        LambdaQueryWrapper<Category> wrapper = new LambdaQueryWrapper<>();
+        if (StringUtils.hasText(name)) {
+            wrapper.like(Category::getName, name);
+        }
+
+        // 分页查询
+        Page<Category> page = new Page<>(pageNum, pageSize);
+        IPage<Category> rolePage = categoryMapper.selectPage(page, wrapper);
+
+        // 组装响应数据
+        PageVo pageVo = new PageVo(rolePage.getRecords(), rolePage.getTotal());
+        return ResponseResult.okResult(pageVo);
     }
 }
