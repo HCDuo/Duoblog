@@ -3,7 +3,9 @@ package com.duo.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.duo.domain.ResponseResult;
 import com.duo.domain.dto.AddUserDto;
+import com.duo.domain.dto.UserDto;
 import com.duo.domain.entity.User;
+import com.duo.domain.vo.UserUpdateVo;
 
 
 /**
@@ -25,4 +27,8 @@ public interface UserService extends IService<User> {
     ResponseResult<?> addUser(AddUserDto addUserDto);
 
     ResponseResult<Object> deleteUser(Long id);
+
+    ResponseResult<UserUpdateVo> getUserInfo(Long id);
+
+    ResponseResult<?> updateUser(UserDto userDto);
 }

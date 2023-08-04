@@ -7,13 +7,14 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.duo.domain.ResponseResult;
 import com.duo.domain.dto.AddUserDto;
+import com.duo.domain.dto.UserDto;
 import com.duo.domain.entity.Article;
 import com.duo.domain.entity.User;
-import com.duo.domain.vo.PageVo;
-import com.duo.domain.vo.UserInfoVo;
+import com.duo.domain.vo.*;
 import com.duo.enums.AppHttpCodeEnum;
 import com.duo.exception.SystemException;
 import com.duo.mapper.UserMapper;
+import com.duo.service.RoleService;
 import com.duo.service.UserService;
 import com.duo.utils.BeanCopyUtils;
 import com.duo.utils.SecurityUtils;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 用户表(User)表服务实现类
@@ -37,6 +39,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private PasswordEncoder passwordEncoder;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private RoleService roleService;
 
     @Override
     public ResponseResult userInfo() {
@@ -163,6 +167,45 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         } else {
             throw new SystemException(AppHttpCodeEnum.SYSTEM_ERROR);
         }
+    }
+
+    @Override
+    public ResponseResult<UserUpdateVo> getUserInfo(Long id) {
+        UserUpdateVo userVo = new UserUpdateVo();
+        //找出user字段
+        User user = userMapper.selectById(id);
+        if (user != null){
+            UserUpdateInfoVo userUpdateInfoVo = BeanCopyUtils.copyBean(user,UserUpdateInfoVo.class);
+            userVo.setUser(userUpdateInfoVo);
+        }else throw new SystemException(AppHttpCodeEnum.USER_NOT_EXIST);
+        //找出roles字段
+        ResponseResult<List<RoleSimpleVo>> roles = roleService.getAllRole();
+        userVo.setRoles(roles.getData());
+        //找出roleIds字段
+        List<Long> roleIds = userMapper.getRoleIdsByUserId(id);
+        userVo.setRoleIds(roleIds);
+        return ResponseResult.okResult(userVo);
+    }
+
+    @Override
+    public ResponseResult<?> updateUser(UserDto userDto) {
+        //对数据进行判断
+        //首先不能为空
+        if(!StringUtils.hasText(userDto.getEmail())){
+            throw new SystemException(AppHttpCodeEnum.EMAIL_NOT_NULL);
+        }
+        if(!StringUtils.hasText(userDto.getNickName())){
+            throw new SystemException(AppHttpCodeEnum.NICKNAME_NOT_NULL);
+        }
+        //找出这个id并匹配
+        User user = BeanCopyUtils.copyBean(userDto,User.class);
+        user.setUpdateTime(new Date());
+        updateById(user);
+        //找出roleIds并删除
+        userMapper.deleteUserRole(user.getId());
+        //插入新的roleIds
+        userMapper.insertUserRole(user.getId(),userDto.getRoleIds());
+        return ResponseResult.okResult();
     }
 
     private boolean nickNameExist(String nickName) {
