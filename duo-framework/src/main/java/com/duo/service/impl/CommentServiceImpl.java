@@ -16,6 +16,7 @@ import com.duo.service.UserService;
 import com.duo.utils.BeanCopyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -33,6 +34,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     private UserService userService;
 
     @Override
+    @Transactional
     public ResponseResult commentList(String commentType, Long articleId, Integer pageNum, Integer pageSize) {
         //查询文章的根评论
         LambdaQueryWrapper<Comment> queryWrapper = new LambdaQueryWrapper<>();
@@ -59,6 +61,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     }
 
     @Override
+    @Transactional
     public ResponseResult addComment(Comment comment) {
         //评论内容不能为空
         if(!StringUtils.hasText(comment.getContent())){

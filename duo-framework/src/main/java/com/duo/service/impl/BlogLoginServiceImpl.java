@@ -15,6 +15,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 
@@ -41,6 +42,7 @@ public class BlogLoginServiceImpl implements BlogLoginService {
     private RedisCache redisCache;
 
     @Override
+    @Transactional
     public ResponseResult login(User user) {
         /*
         是Spring Security提供的一个特殊的Authentication实现，用于在用户名和密码等简单的凭据情况下进行认证。
@@ -73,6 +75,7 @@ public class BlogLoginServiceImpl implements BlogLoginService {
     }
 
     @Override
+    @Transactional
     public ResponseResult logout() {
         //获取token 解析获取userid
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

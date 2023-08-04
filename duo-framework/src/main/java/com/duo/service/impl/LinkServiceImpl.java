@@ -19,6 +19,7 @@ import com.duo.service.LinkService;
 import com.duo.utils.BeanCopyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.Date;
@@ -37,6 +38,7 @@ public class LinkServiceImpl extends ServiceImpl<LinkMapper, Link> implements Li
     private LinkMapper linkMapper;
 
     @Override
+    @Transactional
     public ResponseResult getAllLink() {
         //查询所有审核通过的
         LambdaQueryWrapper<Link> queryWrapper = new LambdaQueryWrapper<>();
@@ -49,6 +51,7 @@ public class LinkServiceImpl extends ServiceImpl<LinkMapper, Link> implements Li
     }
 
     @Override
+    @Transactional
     public ResponseResult<PageVo> Linklist(Integer pageNum, Integer pageSize, String name, String status) {
         // 构建查询条件(模糊查询)
         LambdaQueryWrapper<Link> wrapper = new LambdaQueryWrapper<>();
@@ -66,6 +69,7 @@ public class LinkServiceImpl extends ServiceImpl<LinkMapper, Link> implements Li
     }
 
     @Override
+    @Transactional
     public ResponseResult<?> addLink(LinkDto linkDto) {
         //可以重复
         Link link = BeanCopyUtils.copyBean(linkDto, Link.class);
@@ -75,6 +79,7 @@ public class LinkServiceImpl extends ServiceImpl<LinkMapper, Link> implements Li
     }
 
     @Override
+    @Transactional
     public ResponseResult<?> getLink(Long id) {
         Link Link = getById(id);
         if (Link == null) {
@@ -85,6 +90,7 @@ public class LinkServiceImpl extends ServiceImpl<LinkMapper, Link> implements Li
     }
 
     @Override
+    @Transactional
     public ResponseResult<?> updateLink(LinkDto linkDto) {
         Link link = BeanCopyUtils.copyBean(linkDto, Link.class);
         link.setUpdateTime(new Date());
@@ -93,6 +99,7 @@ public class LinkServiceImpl extends ServiceImpl<LinkMapper, Link> implements Li
     }
 
     @Override
+    @Transactional
     public ResponseResult<?> deleteLink(Long id) {
         //判断有没有这个角色
         Link link = linkMapper.selectById(id);

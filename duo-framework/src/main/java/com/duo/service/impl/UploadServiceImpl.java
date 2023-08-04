@@ -16,6 +16,7 @@ import com.qiniu.util.Auth;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
@@ -37,6 +38,7 @@ public class UploadServiceImpl implements UploadService {
     private String secretKey;
     private String bucket;
     @Override
+    @Transactional
     public ResponseResult uploadImg(MultipartFile img) {
         //判断文件类型
         //获取原始文件名

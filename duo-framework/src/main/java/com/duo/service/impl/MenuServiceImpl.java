@@ -17,6 +17,7 @@ import com.duo.service.MenuService;
 import com.duo.utils.BeanCopyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.Comparator;
@@ -42,6 +43,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     private RoleMenuMapper roleMenuMapper;
 
     @Override
+    @Transactional
     public List<String> selectPermsByUserId(Long id) {
         //如果是管理员，返回所有的权限
         if(id == 1L){
@@ -59,6 +61,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     }
 
     @Override
+    @Transactional
     public List<Menu> selectRouterMenuTreeByUserId(Long userId) {
         MenuMapper menuMapper = getBaseMapper();
         List<Menu> menus = null;
@@ -78,6 +81,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     }
 
     @Override
+    @Transactional
     public ResponseResult<List<Menu>> adminMenuList(String status, String menuName) {
         // 构建查询条件(模糊查询)
         LambdaQueryWrapper<Menu> wrapper = new LambdaQueryWrapper<>();
@@ -96,6 +100,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     }
 
     @Override
+    @Transactional
     public ResponseResult adminAddMenu(Menu menu) {
         // 名称是否存在
         Menu existMenu = menuMapper.selectOne(new LambdaQueryWrapper<Menu>()
@@ -117,6 +122,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     }
 
     @Override
+    @Transactional
     public ResponseResult getMenuDetail(Long id) {
         Menu menu = getById(id);
         MenuUpdateVo menuUpdateVo = BeanCopyUtils.copyBean(menu, MenuUpdateVo.class);
@@ -124,6 +130,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     }
 
     @Override
+    @Transactional
     public ResponseResult updateMenu(Menu menu) {
         // 检查是否将父菜单设置为当前菜单
         if (menu.getParentId() != null && menu.getId().equals(menu.getParentId())) {
@@ -147,6 +154,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     }
 
     @Override
+    @Transactional
     public ResponseResult deleteMenu(Long id) {
         // 判断是否存在这个菜单
         Menu menu = menuMapper.selectById(id);
@@ -175,6 +183,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     }
 
     @Override
+    @Transactional
     public ResponseResult<List<MenuTreeVo>> listMenuTree() {
         List<MenuTreeVo> menuTreeList = menuMapper.selectMenuTree();
         List<MenuTreeVo> menuTreeVos = recurMenuTreeList(0,menuTreeList);
@@ -182,11 +191,13 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     }
 
     @Override
+    @Transactional
     public List<Long> selectMenuIdsByRoleId(Long id) {
         return roleMenuMapper.selectMenuIdsByRoleId(id);
     }
 
     @Override
+    @Transactional
     public ResponseResult<List<MenuSimpleVo>> selectTreeAll() {
         List<Menu> list = list();
         List<MenuSimpleVo> menuSimpleVos = list.stream()

@@ -12,6 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,6 +36,7 @@ public class SystemLoginServiceImpl implements LoginService {
     private RedisCache redisCache;
 
     @Override
+    @Transactional
     public ResponseResult login(User user) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user.getUserName(),user.getPassword());
         Authentication authenticate = authenticationManager.authenticate(authenticationToken);
@@ -56,6 +58,7 @@ public class SystemLoginServiceImpl implements LoginService {
     }
 
     @Override
+    @Transactional
     public ResponseResult logout() {
         //获取当前登录的用户id
         Long userId = SecurityUtils.getUserId();

@@ -20,6 +20,7 @@ import com.duo.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.Date;
@@ -42,6 +43,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private RoleService roleService;
 
     @Override
+    @Transactional
     public ResponseResult userInfo() {
         //获取id
         Long userId = SecurityUtils.getUserId();
@@ -53,6 +55,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
+    @Transactional
     public ResponseResult updateUserInfo(User user) {
         //修改
         updateById(user);
@@ -60,6 +63,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
+    @Transactional
     public ResponseResult register(User user) {
         //对数据进行判断
         //首先不能为空
@@ -92,6 +96,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
+    @Transactional
     public ResponseResult adminArticleList(Integer pageNum, Integer pageSize, String userName, String phonenumber, String status) {
         // 构建查询条件(模糊查询)
         LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
@@ -114,6 +119,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
+    @Transactional
     public ResponseResult<?> addUser(AddUserDto addUserDto) {
         //对数据进行判断
         //首先不能为空
@@ -148,6 +154,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
+    @Transactional
     public ResponseResult<Object> deleteUser(Long id) {
         //判断id
         User user = userMapper.selectById(id);
@@ -169,6 +176,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
+    @Transactional
     public ResponseResult<UserUpdateVo> getUserInfo(Long id) {
         UserUpdateVo userVo = new UserUpdateVo();
         //找出user字段
@@ -187,6 +195,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
+    @Transactional
     public ResponseResult<?> updateUser(UserDto userDto) {
         //对数据进行判断
         //首先不能为空

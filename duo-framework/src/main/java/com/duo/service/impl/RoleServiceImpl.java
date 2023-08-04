@@ -23,6 +23,7 @@ import com.duo.service.RoleService;
 import com.duo.utils.BeanCopyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -44,6 +45,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     private RoleMenuMapper roleMenuMapper;
 
     @Override
+    @Transactional
     public List<String> selectRoleKeyByUserId(Long id) {
         //判断是否是管理员 如果是返回集合中只需要有admin
         if(id == 1L){
@@ -56,6 +58,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     }
 
     @Override
+    @Transactional
     public ResponseResult<PageVo> pageRoleList(Integer pageNum, Integer pageSize, String roleName, String status) {
         // 构建查询条件(模糊查询)
         LambdaQueryWrapper<Role> wrapper = new LambdaQueryWrapper<>();
@@ -76,6 +79,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     }
 
     @Override
+    @Transactional
     public ResponseResult<?> changeStatus(RoleStatusDto roleStatus) {
         // 检查角色是否存在
         if(roleStatus.getRoleId() == 1){
@@ -101,6 +105,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     }
 
     @Override
+    @Transactional
     public ResponseResult<?> addRole(RoleAddDTO roleAddDTO) {
         // 角色名是否存在
         String roleName = roleAddDTO.getRoleName();
@@ -118,6 +123,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     }
 
     @Override
+    @Transactional
     public ResponseResult<?> adminRoleUpdateList(Long id) {
         //找出信息
         Role role = roleMapper.selectById(id);
@@ -131,6 +137,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     }
 
     @Override
+    @Transactional
     public ResponseResult<?> updateRole(RoleUpdateDto roleUpdateDto) {
         //找出这个id并匹配
         Role role = BeanCopyUtils.copyBean(roleUpdateDto, Role.class);
@@ -146,6 +153,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     }
 
     @Override
+    @Transactional
     public ResponseResult<?> deleteRoleById(Long id) {
         //判断有没有这个角色
         Role role = roleMapper.selectById(id);
@@ -171,6 +179,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     }
 
     @Override
+    @Transactional
     public ResponseResult<List<RoleSimpleVo>> getAllRole() {
         LambdaQueryWrapper<Role> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Role::getStatus, 0);

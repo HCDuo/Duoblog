@@ -19,6 +19,7 @@ import com.duo.service.TagService;
 import com.duo.utils.BeanCopyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.Date;
@@ -40,6 +41,7 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
     private ArticleMapper articleMapper;
 
     @Override
+    @Transactional
     public ResponseResult<PageVo> pageTagList(Integer pageNum, Integer pageSize, TagListDto tagListDto) {
         //分页查询
         LambdaQueryWrapper<Tag> wrapper = new LambdaQueryWrapper<>();
@@ -54,6 +56,7 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
     }
 
     @Override
+    @Transactional
     public ResponseResult<?> addTag(TagDto tagDtO) {
         //判断标签是否存在
         LambdaQueryWrapper<Tag> wrapper = new LambdaQueryWrapper<>();
@@ -76,6 +79,7 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
     }
 
     @Override
+    @Transactional
     public ResponseResult<?> deleteTag(Long id) {
         // 标签下是否有文章
         Integer count = articleMapper.selectCount(new LambdaQueryWrapper<Article>()
@@ -103,6 +107,7 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
     }
 
     @Override
+    @Transactional
     public ResponseResult getTagDetail(Long id) {
         //根据id查询标签
         Tag tag = getById(id);
@@ -113,6 +118,7 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
     }
 
     @Override
+    @Transactional
     public ResponseResult<?> updateTag(Tag tag) {
         // 判断标签是否存在
         Tag existTag = tagMapper.selectOne(new LambdaQueryWrapper<Tag>()
@@ -141,6 +147,7 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
     }
 
     @Override
+    @Transactional
     public List<TagVo> listAllTag() {
         //查询数据
         LambdaQueryWrapper<Tag> wrapper = new LambdaQueryWrapper<>();

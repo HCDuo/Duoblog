@@ -21,6 +21,7 @@ import com.duo.service.CategoryService;
 import com.duo.utils.BeanCopyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.Date;
@@ -43,6 +44,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     private CategoryMapper categoryMapper;
 
     @Override
+    @Transactional
     public ResponseResult getCategoryList() {
         //查询状态是已经发布的文章表
         LambdaQueryWrapper<Article> articleWrapper = new LambdaQueryWrapper<>();
@@ -63,6 +65,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     }
 
     @Override
+    @Transactional
     public List<CategoryVo> listAllCategory() {
         //查询所有分类，判断是不是正常状态
         LambdaQueryWrapper<Category> wrapper = new LambdaQueryWrapper<>();
@@ -75,6 +78,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     }
 
     @Override
+    @Transactional
     public ResponseResult<PageVo> listCategory(Integer pageNum, Integer pageSize, String name, String status) {
         // 构建查询条件(模糊查询)
         LambdaQueryWrapper<Category> wrapper = new LambdaQueryWrapper<>();
@@ -92,6 +96,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     }
 
     @Override
+    @Transactional
     public ResponseResult<?> addCategory(CategoryDto categoryDto) {
         Category category = BeanCopyUtils.copyBean(categoryDto, Category.class);
         category.setCreateTime(new Date());
@@ -100,6 +105,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     }
 
     @Override
+    @Transactional
     public ResponseResult<?> getCategoryById(Integer id) {
         Category category = getById(id);
         if (category == null) {
@@ -110,6 +116,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     }
 
     @Override
+    @Transactional
     public ResponseResult<?> updateCategory(CategoryDto categoryDto) {
         Category category = BeanCopyUtils.copyBean(categoryDto, Category.class);
         category.setUpdateTime(new Date());
@@ -118,6 +125,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     }
 
     @Override
+    @Transactional
     public ResponseResult<?> deleteCategory(Long id) {
         //判断有没有这个角色
         Category category = categoryMapper.selectById(id);

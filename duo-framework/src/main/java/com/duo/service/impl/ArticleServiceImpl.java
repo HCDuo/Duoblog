@@ -53,6 +53,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Autowired
     private ArticleTagMapper articleTagMapper;
     @Override
+    @Transactional
     public ResponseResult hotArticleList() {
         //查询热门文章，封装ResponseResult返回
         //LambdaQueryWrapper是MyBatis-Plus框架中的一个类，用于构建数据库查询条件
@@ -80,6 +81,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
+    @Transactional
     public ResponseResult articleList(Integer pageNum, Integer pageSize, Long categoryId) {
         //查询条件
         LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
@@ -111,6 +113,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
+    @Transactional
     public ResponseResult getArticleDetail(Long id) {
         //根据id查询文章
         Article article = getById(id);
@@ -130,6 +133,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
+    @Transactional
     public ResponseResult updateViewCount(Long id) {
         //更新redis的数据
         redisCache.incrementCacheMapValue("article:viewCount",id.toString(),1);
@@ -153,6 +157,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
+    @Transactional
     public ResponseResult adminArticleList(Integer pageNum, Integer pageSize, String title, String summary) {
         // 构建查询条件(模糊查询)
         LambdaQueryWrapper<Article> wrapper = new LambdaQueryWrapper<>();
@@ -173,6 +178,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
+    @Transactional
     public ResponseResult adminArticleUpdateList(Long id) {
         // 根据ID查询文章信息
         Article article = articleMapper.selectById(id);
@@ -191,6 +197,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
+    @Transactional
     public ResponseResult adminArticleUpdate(ArticleDto articleDto) {
         // 判断文章是否存在
         Article existingArticle = articleMapper.selectById(articleDto.getId());
@@ -220,6 +227,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
+    @Transactional
     public ResponseResult<?> deleteArtcle(Long id) {
         //判断有没有这个文章
         Article existingArticle = articleMapper.selectById(id);
