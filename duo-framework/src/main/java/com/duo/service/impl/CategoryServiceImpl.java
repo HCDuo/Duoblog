@@ -103,6 +103,9 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     @Override
     public ResponseResult<?> getCategoryById(Integer id) {
         Category category = getById(id);
+        if (category == null) {
+            throw new SystemException(AppHttpCodeEnum.CATEGORY_NOT_ESIXT);
+        }
         CategoryUpdateVo categoryUpdateVo = BeanCopyUtils.copyBean(category, CategoryUpdateVo.class);
         return ResponseResult.okResult(categoryUpdateVo);
     }

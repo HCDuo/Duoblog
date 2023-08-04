@@ -34,4 +34,14 @@ public class LinkController {
         return linkService.addLink(linkDto);
     }
 
+    @GetMapping("/{id}")
+    public ResponseResult<?> getLink(@PathVariable("id") Long id) {
+        return linkService.getLink(id);
+    }
+
+    @PutMapping
+    public ResponseResult<?> updateLink(@RequestBody @Validated LinkDto linkDto) {
+        return linkService.updateLink(linkDto);
+    }
+
 }

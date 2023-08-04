@@ -10,6 +10,8 @@ import com.duo.domain.dto.LinkDto;
 import com.duo.domain.entity.Category;
 import com.duo.domain.entity.Link;
 import com.duo.domain.entity.Tag;
+import com.duo.domain.vo.CategoryUpdateVo;
+import com.duo.domain.vo.LinkUpdateVo;
 import com.duo.domain.vo.LinkVo;
 import com.duo.domain.vo.PageVo;
 import com.duo.enums.AppHttpCodeEnum;
@@ -73,4 +75,24 @@ public class LinkServiceImpl extends ServiceImpl<LinkMapper, Link> implements Li
         save(link);
         return ResponseResult.okResult();
     }
+
+    @Override
+    public ResponseResult<?> getLink(Long id) {
+        Link Link = getById(id);
+        if (Link == null) {
+            throw new SystemException(AppHttpCodeEnum.LINK_NOT_EXIST);
+        }
+        LinkUpdateVo linkUpdateVo = BeanCopyUtils.copyBean(Link, LinkUpdateVo.class);
+        return ResponseResult.okResult(linkUpdateVo);
+    }
+
+    @Override
+    public ResponseResult<?> updateLink(LinkDto linkDto) {
+        Link link = BeanCopyUtils.copyBean(linkDto, Link.class);
+        link.setUpdateTime(new Date());
+        updateById(link);
+        return ResponseResult.okResult();
+    }
+
+
 }
