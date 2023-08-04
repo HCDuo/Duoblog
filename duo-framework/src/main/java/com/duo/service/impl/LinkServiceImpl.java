@@ -6,10 +6,14 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.duo.constants.SystemConstants;
 import com.duo.domain.ResponseResult;
+import com.duo.domain.dto.LinkDto;
 import com.duo.domain.entity.Category;
 import com.duo.domain.entity.Link;
+import com.duo.domain.entity.Tag;
 import com.duo.domain.vo.LinkVo;
 import com.duo.domain.vo.PageVo;
+import com.duo.enums.AppHttpCodeEnum;
+import com.duo.exception.SystemException;
 import com.duo.mapper.LinkMapper;
 import com.duo.service.LinkService;
 import com.duo.utils.BeanCopyUtils;
@@ -17,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -58,5 +63,14 @@ public class LinkServiceImpl extends ServiceImpl<LinkMapper, Link> implements Li
         // 组装响应数据
         PageVo pageVo = new PageVo(rolePage.getRecords(), rolePage.getTotal());
         return ResponseResult.okResult(pageVo);
+    }
+
+    @Override
+    public ResponseResult<?> addLink(LinkDto linkDto) {
+        //可以重复
+        Link link = BeanCopyUtils.copyBean(linkDto, Link.class);
+        link.setCreateTime(new Date());
+        save(link);
+        return ResponseResult.okResult();
     }
 }

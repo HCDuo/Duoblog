@@ -1,12 +1,13 @@
 package com.duo.controller;
 
 import com.duo.domain.ResponseResult;
+import com.duo.domain.dto.CategoryDto;
+import com.duo.domain.dto.LinkDto;
 import com.duo.domain.vo.PageVo;
 import com.duo.service.LinkService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <pre>
@@ -26,6 +27,11 @@ public class LinkController {
     @GetMapping("/list")
     public ResponseResult<PageVo> Linklist(Integer pageNum, Integer pageSize, String name, String status){
         return linkService.Linklist(pageNum,pageSize,name,status);
+    }
+
+    @PostMapping
+    public ResponseResult<?> addLink(@RequestBody @Validated LinkDto linkDto) {
+        return linkService.addLink(linkDto);
     }
 
 }
