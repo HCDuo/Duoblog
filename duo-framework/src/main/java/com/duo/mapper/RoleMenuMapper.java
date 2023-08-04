@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * <pre>
- *
+ * 角色菜单关联表表数据库访问层
  * </pre>
  *
  * @author <a href="https://github.com/HCDUO">HCDUO</a>

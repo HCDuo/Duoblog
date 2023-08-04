@@ -11,9 +11,13 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * <pre>
+ *  RedisCache 是一个工具类，封装了对 Redis 缓存的基本操作，包括缓存对象、设置有效时间、获取对象、删除对象、缓存 List、Set、Map 等数据结构，
+ *  以及对 Hash 结构中数据的操作。这些方法可以方便地对 Redis 缓存进行操作和管理
+ * </pre>
  *
  * @author <a href="https://github.com/HCDUO">HCDUO</a>
- * @date:2023/7/26 21:23
+ * @date:2023/7/29 17:12
  */
 
 @SuppressWarnings(value = { "unchecked", "rawtypes" })

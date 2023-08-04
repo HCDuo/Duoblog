@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
  * <pre>
- *
+ *  GlobalExceptionHandler 是一个全局异常处理类，通过 @ExceptionHandler 注解标记多个异常处理方法，分别处理不同类型的异常。
+ *  当系统中抛出对应类型的异常时，Spring Boot 会自动调用相应的异常处理方法，将异常信息封装成统一的 ResponseResult 对象返回给客户端。
  * </pre>
  *
  * @author <a href="https://github.com/HCDUO">HCDUO</a>
