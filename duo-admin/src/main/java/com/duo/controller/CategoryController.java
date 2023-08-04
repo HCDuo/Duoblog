@@ -40,4 +40,13 @@ public class CategoryController {
         return categoryService.addCategory(categoryDto);
     }
 
+    @GetMapping("/{id}")
+    public ResponseResult<?> getCategory(@PathVariable("id") Integer id) {
+        return categoryService.getCategoryById(id);
+    }
+
+    @PutMapping
+    public ResponseResult<?> updateCategory(@RequestBody @Validated CategoryDto categoryDto) {
+        return categoryService.updateCategory(categoryDto);
+    }
 }

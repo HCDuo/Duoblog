@@ -9,6 +9,7 @@ import com.duo.domain.ResponseResult;
 import com.duo.domain.dto.CategoryDto;
 import com.duo.domain.entity.Article;
 import com.duo.domain.entity.Category;
+import com.duo.domain.vo.CategoryUpdateVo;
 import com.duo.domain.vo.CategoryVo;
 import com.duo.domain.vo.PageVo;
 import com.duo.mapper.CategoryMapper;
@@ -92,6 +93,21 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         Category category = BeanCopyUtils.copyBean(categoryDto, Category.class);
         category.setCreateTime(new Date());
         save(category);
+        return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult<?> getCategoryById(Integer id) {
+        Category category = getById(id);
+        CategoryUpdateVo categoryUpdateVo = BeanCopyUtils.copyBean(category, CategoryUpdateVo.class);
+        return ResponseResult.okResult(categoryUpdateVo);
+    }
+
+    @Override
+    public ResponseResult<?> updateCategory(CategoryDto categoryDto) {
+        Category category = BeanCopyUtils.copyBean(categoryDto, Category.class);
+        category.setUpdateTime(new Date());
+        updateById(category);
         return ResponseResult.okResult();
     }
 }

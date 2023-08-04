@@ -25,4 +25,8 @@ public interface CategoryService extends IService<Category> {
     ResponseResult<PageVo> listCategory(Integer pageNum, Integer pageSize, String name, String status);
 
     ResponseResult<?> addCategory(CategoryDto categoryDto);
+
+    ResponseResult<?> getCategoryById(Integer id);
+
+    ResponseResult<?> updateCategory(CategoryDto categoryDto);
 }
