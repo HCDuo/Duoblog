@@ -17,8 +17,8 @@
       </div>
       <h1>赞赏说明：</h1>
       <p>
-        如果我的课程对你有所帮助，你可以请作者喝杯咖啡表示鼓励
-        ☕️)请备注留下你的姓名/昵称方便我公布赞赏记录。
+        制作不易，你可以请作者喝杯咖啡表示鼓励
+        ☕️
       </p>
       <hr />
       <h1>赞赏方式：</h1>
@@ -33,7 +33,7 @@
               "
               :onerror="$store.state.errorImg"
             />
-            <span>微信扫一扫，请我喝杯咖啡</span>
+            <span>微信扫一扫</span>
           </div>
         </el-col>
         <el-col :span="12" class="donate-item">
@@ -46,28 +46,10 @@
               "
               :onerror="$store.state.errorImg"
             />
-            <span style="padding-top: 14px">支付宝扫一扫，请我喝杯咖啡</span>
+            <span style="padding-top: 14px">支付宝扫一扫</span>
           </div>
         </el-col>
       </el-row>
-      <h1>@赞赏记录：</h1>
-      <el-table :data="tableData" border style="width: 100%">
-        <el-table-column
-          prop="payTime"
-          label="日期"
-          align="center"
-        ></el-table-column>
-        <el-table-column
-          prop="name"
-          label="赞赏人"
-          align="center"
-        ></el-table-column>
-        <el-table-column
-          prop="money"
-          label="金额"
-          align="center"
-        ></el-table-column>
-      </el-table>
     </section>
   </div>
 </template>

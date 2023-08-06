@@ -46,7 +46,7 @@
 
 			<h2 class="h-description">
 
-                        {{this.$store.state.themeObj.autograph?this.$store.state.themeObj.autograph:"三更灯火五更鸡，正是男儿读书时"}}
+                        {{this.$store.state.themeObj.autograph?this.$store.state.themeObj.autograph:"BE DELUSIONAL"}}
 
                 </h2>
 		</div>
