@@ -61,7 +61,7 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
         //判断标签是否存在
         LambdaQueryWrapper<Tag> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Tag::getName,tagDtO.getName());
-        int count = tagMapper.selectCount(wrapper);
+        int count = Math.toIntExact(tagMapper.selectCount(wrapper));
         if (count != 0) {
             throw new SystemException(AppHttpCodeEnum.TAG_EXIST);
         }
@@ -82,8 +82,8 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
     @Transactional
     public ResponseResult<?> deleteTag(Long id) {
         // 标签下是否有文章
-        Integer count = articleMapper.selectCount(new LambdaQueryWrapper<Article>()
-                .in(Article::getCategoryId, id));
+        int count = Math.toIntExact(articleMapper.selectCount(new LambdaQueryWrapper<Article>()
+                .in(Article::getCategoryId, id)));
         //判断是否有文章，有就删除失败
         if (count > 0) {
             return ResponseResult.errorResult(AppHttpCodeEnum.TAG_DELETE_ERROR, "标签下存在文章，无法删除");
