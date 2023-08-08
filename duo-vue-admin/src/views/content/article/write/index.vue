@@ -103,11 +103,10 @@
 </template>
 
 <script>
-import {listAllCategory} from '@/api/content/category'
-import {uploadImg} from '@/api/content/upload'
-import {addArticle, getArticle, updateArticle} from '@/api/content/article'
-import {listAllTag} from '@/api/content/tag'
-
+import { listAllCategory } from '@/api/content/category'
+import { uploadImg } from '@/api/content/upload'
+import { addArticle, getArticle, updateArticle } from '@/api/content/article'
+import { listAllTag } from '@/api/content/tag'
 export default {
   name: 'Write',
   data() {

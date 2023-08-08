@@ -1,4 +1,4 @@
-import {isExternal, validUsername} from '@/utils/validate.js'
+import { validUsername, isExternal } from '@/utils/validate.js'
 
 describe('Utils:validate', () => {
   it('validUsername', () => {

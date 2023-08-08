@@ -55,17 +55,12 @@
         style="width: 100%; margin-bottom: 30px"
         @click.native.prevent="handleLogin"
       >Login</el-button>
-
-      <div class="tips">
-        <span style="margin-right: 20px">userName: sg</span>
-        <span> password: any</span>
-      </div>
     </el-form>
   </div>
 </template>
 
 <script>
-import {validUsername} from '@/utils/validate'
+import { validUsername } from '@/utils/validate'
 
 export default {
   name: 'Login',
@@ -86,8 +81,8 @@ export default {
     }
     return {
       loginForm: {
-        userName: 'sg',
-        password: '1234'
+        userName: '',
+        password: ''
       },
       loginRules: {
         userName: [

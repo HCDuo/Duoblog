@@ -1,6 +1,6 @@
 import axios from 'axios'
-import {Message} from 'element-ui'
-import {getToken} from '@/utils/auth'
+import { Message } from 'element-ui'
+import { getToken } from '@/utils/auth'
 
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 // 创建axios实例

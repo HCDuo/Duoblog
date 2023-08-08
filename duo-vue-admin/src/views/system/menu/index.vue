@@ -211,7 +211,7 @@
 </template>
 
 <script>
-import {addMenu, delMenu, getMenu, listMenu, updateMenu} from '@/api/menu'
+import { listMenu, getMenu, delMenu, addMenu, updateMenu } from '@/api/menu'
 import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
